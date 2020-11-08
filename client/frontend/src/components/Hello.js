@@ -1,5 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export const Hello = () => {
-  return <div>Hello!!</div>;
+  const [initialState, setInitialState] = useState([]);
+
+  useEffect(() => {
+    fetch("/random")
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((jsonResponse) => setInitialState(jsonResponse));
+  }, []);
+
+  console.log(initialState);
+  return <div>Hey</div>;
 };
