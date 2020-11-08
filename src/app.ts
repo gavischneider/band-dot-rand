@@ -11,7 +11,7 @@ const random = new randomSong(process.env.API_KEY);
 // Home route
 app.get("/", (req: Request, res: Response) => {
   res.send(
-    "Welcome to my capstone project! To get a random song, go to the '/random' route."
+    "Welcome to bandDotRand! To get a random song, go to the '/random' route."
   );
 });
 
