@@ -1,0 +1,19 @@
+{
+  "name": "band-dot-rand",
+  "version": "1.0.0",
+  "description": "Discover a new band. Or six.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavischneider/band-dot-rand.git"
+  },
+  "author": "Gavi Schneider",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gavischneider/band-dot-rand/issues"
+  },
+  "homepage": "https://github.com/gavischneider/band-dot-rand#readme"
+}
