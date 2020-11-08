@@ -8,6 +8,8 @@ const app: Application = express();
 
 const random = new randomSong(process.env.API_KEY);
 
+const PORT = process.env.PORT || 3001;
+
 // Home route
 app.get("/", (req: Request, res: Response) => {
   res.send(
@@ -25,4 +27,4 @@ app.get("/random", async (req: Request, res: Response) => {
     console.log(error);
   }
 });
-app.listen(8080, () => console.log("Server running on port 8080"));
+app.listen(PORT, () => console.log("Server running on port 3001"));
