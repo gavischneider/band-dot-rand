@@ -10,6 +10,7 @@ const random = new randomSong(process.env.API_KEY);
 
 const PORT = process.env.PORT || 3001;
 
+// Allows frontend to call backend API
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
