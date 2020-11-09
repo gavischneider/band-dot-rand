@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export const Hello = () => {
+export const RandomSong = () => {
   const [initialState, setInitialState] = useState([]);
 
   const proxyUrl = "https://localhost:3001";

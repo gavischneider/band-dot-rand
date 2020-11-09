@@ -1,12 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
 
-import { Hello } from "./components/Hello";
+import { RandomSong } from "./components/RandomSong";
 
 function App() {
   return (
     <div className="App">
-      <Hello />
+      <RandomSong />
     </div>
   );
 }
