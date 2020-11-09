@@ -7,21 +7,26 @@ export const RandomSong = () => {
   const proxyUrl = "http://localhost:3001";
   const api = "/random";
 
+  interface ServerData {
+    randomSong: object;
+  }
+
   useEffect(() => {
-    axios.get(proxyUrl + api).then((res) => {
-      console.log("Res: ");
-      console.log(res);
-      console.log("res.data: ");
-      console.log(res.data);
-      setInitialState([
-        {
-          ...res.data,
-        },
-      ]);
-    });
+    axios
+      .get<ServerData>(proxyUrl + api)
+      .then((response) => {
+        setInitialState([
+          {
+            ...response.data,
+          },
+        ]);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   console.log("initialState: ");
   console.log(initialState);
   return <h1>Hey</h1>;
 };
+
+// To do: Fix interface issue
