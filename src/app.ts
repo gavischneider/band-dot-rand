@@ -10,6 +10,11 @@ const random = new randomSong(process.env.API_KEY);
 
 const PORT = process.env.PORT || 3001;
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 // Home route
 app.get("/", (req: Request, res: Response) => {
   res.send(
