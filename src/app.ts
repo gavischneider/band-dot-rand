@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 
 const randomSong = require("@chatandshare/random-song");
+const music = require("musicmatch")({ apikey: process.env.API_KEY });
 
 require("dotenv").config();
 
@@ -26,9 +27,25 @@ app.get("/", (req: Request, res: Response) => {
 // Random song route
 app.get("/random", async (req: Request, res: Response) => {
   try {
+    // Get random song
     const song = await random.song();
     console.log(song);
     res.send(song);
+
+    // Get the artists ID from the song
+    const artistID = song.artist_id;
+    console.log("ArtistID: " + artistID);
+
+    // Get the songs artist
+    music
+      .artist({ artist_id: artistID })
+      .then(function (data: any) {
+        console.log(data.message);
+        //res.send(data);
+      })
+      .catch(function (err: any) {
+        console.log("ERROR: " + err);
+      });
   } catch (error) {
     console.log(error);
   }

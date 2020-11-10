@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export const RandomSong = () => {
-  //const [initialState, setInitialState] = useState([]);
   const [initialState, setInitialState] = useState<ServerData[]>([]);
 
   const proxyUrl = "http://localhost:3001";
@@ -29,5 +28,3 @@ export const RandomSong = () => {
   console.log(initialState);
   return <h1>Hey</h1>;
 };
-
-// To do: Fix interface issue
