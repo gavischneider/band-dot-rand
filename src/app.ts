@@ -1,15 +1,15 @@
 import express, { Application, Request, Response } from "express";
 
-const randomSong = require("@chatandshare/random-song");
-const music = require("musicmatch")({ apikey: process.env.API_KEY });
+const randomSong: any = require("@chatandshare/random-song");
+const music: any = require("musicmatch")({ apikey: process.env.API_KEY });
 
 require("dotenv").config();
 
 const app: Application = express();
 
-const random = new randomSong(process.env.API_KEY);
+const random: any = new randomSong(process.env.API_KEY);
 
-const PORT = process.env.PORT || 3001;
+const PORT: string | number = process.env.PORT || 3001;
 
 // Allows frontend to call backend API
 app.use((req, res, next) => {
