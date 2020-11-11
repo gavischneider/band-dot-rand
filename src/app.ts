@@ -1,7 +1,10 @@
 import express, { Application, Request, Response } from "express";
 
+const APIKey = "5a6a3319d10b8dd4593f110d6db57172";
 const randomSong: any = require("@chatandshare/random-song");
-const music: any = require("musicmatch")({ apikey: process.env.API_KEY });
+const music: any = require("musicmatch")({
+  apikey: APIKey,
+});
 
 require("dotenv").config();
 
@@ -30,18 +33,18 @@ app.get("/random", async (req: Request, res: Response) => {
     // Get random song
     const song = await random.song();
     console.log(song);
-    res.send(song);
+    //res.send(song);
 
     // Get the artists ID from the song
     const artistID = song.artist_id;
     console.log("ArtistID: " + artistID);
 
-    // Get the songs artist
+    // Take the random song and get its artist
     music
       .artist({ artist_id: artistID })
       .then(function (data: any) {
-        console.log(data.message);
-        //res.send(data);
+        console.log(data.message.body.artist);
+        res.send(data.message.body.artist);
       })
       .catch(function (err: any) {
         console.log("ERROR: " + err);
