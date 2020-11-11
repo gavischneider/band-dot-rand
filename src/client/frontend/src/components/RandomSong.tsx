@@ -5,14 +5,27 @@ import { response } from "express";
 export const RandomSong = () => {
   const [initialState, setInitialState] = useState<ArtistData[]>([]);
 
+  // Backend API
   const proxyUrl = "http://localhost:3001";
   const api = "/random";
+
+  interface Album {
+    album_id: number;
+    album_mbid: number;
+    album_name: string;
+    album_rating: number;
+    album_track_count: number;
+    album_release_date: string;
+    album_release_type: string;
+    artist_id: number;
+  }
 
   interface ArtistData {
     artist_id: number;
     artist_name: string;
     artist_country: string;
     artist_twitter_url: string;
+    artist_albums: Array<Album>;
   }
 
   useEffect(() => {
@@ -25,6 +38,8 @@ export const RandomSong = () => {
               ...response.data,
             },
           ]);
+          console.log("RESPONSE.DATA");
+          console.log(response.data);
         })
         .catch((error) => console.log(error));
     })();
@@ -46,12 +61,12 @@ export const RandomSong = () => {
       {initialState[0].artist_country ? (
         <h3>Artist Country: {initialState[0].artist_country}</h3>
       ) : (
-        <h3></h3>
+        <h3>""</h3>
       )}
       {initialState[0].artist_twitter_url ? (
         <h3>Artist Twitter URL: {initialState[0].artist_twitter_url}</h3>
       ) : (
-        <h3></h3>
+        <h3>""</h3>
       )}
     </div>
   );
