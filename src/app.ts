@@ -39,18 +39,23 @@ class Album {
     album_release_type: string,
     artist_id: number
   ) {
-    (album_id = album_id),
-      (album_mbid = album_mbid),
-      (album_name = album_name),
-      (album_rating = album_rating),
-      (album_track_count = album_track_count),
-      (album_release_date = album_release_date),
-      (album_release_type = album_release_type),
-      (artist_id = artist_id);
+    (this.album_id = album_id),
+      (this.album_mbid = album_mbid),
+      (this.album_name = album_name),
+      (this.album_rating = album_rating),
+      (this.album_track_count = album_track_count),
+      (this.album_release_date = album_release_date),
+      (this.album_release_type = album_release_type),
+      (this.artist_id = artist_id);
   }
 }
 
 class Artist {
+  artist_id: any;
+  artist_name: any;
+  artist_country: any;
+  artist_twitter_url: any;
+  artist_albums: any;
   constructor(
     artist_id: number,
     artist_name: string,
@@ -58,11 +63,11 @@ class Artist {
     artist_twitter_url: string,
     artist_albums: Array<Album>
   ) {
-    (artist_id = artist_id),
-      (artist_name = artist_name),
-      (artist_country = artist_country),
-      (artist_twitter_url = artist_twitter_url),
-      (artist_albums = artist_albums);
+    (this.artist_id = artist_id),
+      (this.artist_name = artist_name),
+      (this.artist_country = artist_country),
+      (this.artist_twitter_url = artist_twitter_url),
+      (this.artist_albums = artist_albums);
   }
 }
 
@@ -75,15 +80,13 @@ app.get("/", (req: Request, res: Response) => {
 
 // Random band route
 app.get("/random", async (req: Request, res: Response) => {
-  let albums: Album[];
-  let artist: Artist;
+  let albums: Album[] = [];
   try {
     const song = await random.song();
     console.log(song);
 
     // Second, extract the artists ID from the song
     const artistID = song.artist_id;
-    console.log("ArtistID: " + artistID);
 
     // Third, get the artist's albums
     music
@@ -93,18 +96,17 @@ app.get("/random", async (req: Request, res: Response) => {
         g_album_name: 1,
       })
       .then(function (data: any) {
-        console.log("ALBUM_DATA: ");
-        console.log(data.message.body.album_list);
         let tempAlbums = data.message.body.album_list;
+
         tempAlbums.forEach((album: any) => {
-          const album_id = album.album_id;
-          const album_mbid = album.album_mbid;
-          const album_name = album.album_name;
-          const album_rating = album.album_rating;
-          const album_track_count = album.album_track_count;
-          const album_release_date = album.album_release_date;
-          const album_release_type = album.album_release_type;
-          const artist_id = album.artist_id;
+          const album_id = album.album.album_id;
+          const album_mbid = album.album.album_mbid;
+          const album_name = album.album.album_name;
+          const album_rating = album.album.album_rating;
+          const album_track_count = album.album.album_track_count;
+          const album_release_date = album.album.album_release_date;
+          const album_release_type = album.album.album_release_type;
+          const artist_id = album.album.artist_id;
           let newAlbum = new Album(
             album_id,
             album_mbid,
@@ -117,6 +119,8 @@ app.get("/random", async (req: Request, res: Response) => {
           );
           albums.push(newAlbum);
         });
+        console.log("----- FINAL ALBUMS READY -----");
+        console.log(albums);
       })
       .catch(function (err: any) {
         console.log(err);
@@ -126,13 +130,11 @@ app.get("/random", async (req: Request, res: Response) => {
     music
       .artist({ artist_id: artistID })
       .then(function (data: any) {
-        console.log("THIS IS THE ARTIST: ");
-        console.log(data.message.body.artist);
-        const tempArtist = data.message.body.artist;
-        const artist_id = tempArtist.artist_id;
-        const artist_name = tempArtist.artist_name;
-        const artist_country = tempArtist.artist_country;
-        const artist_twitter_url = tempArtist.artist_twitter_url;
+        const artist = data.message.body.artist;
+        const artist_id = artist.artist_id;
+        const artist_name = artist.artist_name;
+        const artist_country = artist.artist_country;
+        const artist_twitter_url = artist.artist_twitter_url;
         const artist_albums = albums;
         let newArtist = new Artist(
           artist_id,
@@ -141,7 +143,9 @@ app.get("/random", async (req: Request, res: Response) => {
           artist_twitter_url,
           artist_albums
         );
-        res.json(newArtist);
+        console.log("----- FINAL ARTIST READY -----");
+        console.log(newArtist);
+        res.send(newArtist);
       })
       .catch(function (err: any) {
         console.log("ERROR: " + err);
