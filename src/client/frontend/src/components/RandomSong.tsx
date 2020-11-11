@@ -43,8 +43,16 @@ export const RandomSong = () => {
       <h1>Artist Info:</h1>
       <h3>Artist Name: {initialState[0].artist_name}</h3>
       <h3>Artist ID: {initialState[0].artist_id}</h3>
-      <h3>Artist Country: {initialState[0].artist_country}</h3>
-      <h3>Artist Twitter URL: {initialState[0].artist_twitter_url}</h3>
+      {initialState[0].artist_country ? (
+        <h3>Artist Country: {initialState[0].artist_country}</h3>
+      ) : (
+        <h3></h3>
+      )}
+      {initialState[0].artist_twitter_url ? (
+        <h3>Artist Twitter URL: {initialState[0].artist_twitter_url}</h3>
+      ) : (
+        <h3></h3>
+      )}
     </div>
   );
 };
