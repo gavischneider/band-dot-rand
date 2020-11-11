@@ -75,7 +75,7 @@ app.get("/", (req: Request, res: Response) => {
 
 // Random band route
 app.get("/random", async (req: Request, res: Response) => {
-  let albums: Array<Album>;
+  let albums: Album[];
   let artist: Artist;
   try {
     const song = await random.song();
@@ -85,18 +85,7 @@ app.get("/random", async (req: Request, res: Response) => {
     const artistID = song.artist_id;
     console.log("ArtistID: " + artistID);
 
-    // Third, take the random song and get its artist
-    music
-      .artist({ artist_id: artistID })
-      .then(function (data: any) {
-        console.log(data.message.body.artist);
-        //res.send(data.message.body.artist);
-      })
-      .catch(function (err: any) {
-        console.log("ERROR: " + err);
-      });
-
-    // Fourth, get the artist's albums
+    // Third, get the artist's albums
     music
       .artistAlbums({
         artist_id: artistID,
@@ -106,8 +95,8 @@ app.get("/random", async (req: Request, res: Response) => {
       .then(function (data: any) {
         console.log("ALBUM_DATA: ");
         console.log(data.message.body.album_list);
-        albums = data.message.body.album_list;
-        albums.forEach((album) => {
+        let tempAlbums = data.message.body.album_list;
+        tempAlbums.forEach((album: any) => {
           const album_id = album.album_id;
           const album_mbid = album.album_mbid;
           const album_name = album.album_name;
@@ -126,10 +115,36 @@ app.get("/random", async (req: Request, res: Response) => {
             album_release_type,
             artist_id
           );
+          albums.push(newAlbum);
         });
       })
       .catch(function (err: any) {
         console.log(err);
+      });
+
+    // Fourth, get the actual artist
+    music
+      .artist({ artist_id: artistID })
+      .then(function (data: any) {
+        console.log("THIS IS THE ARTIST: ");
+        console.log(data.message.body.artist);
+        const tempArtist = data.message.body.artist;
+        const artist_id = tempArtist.artist_id;
+        const artist_name = tempArtist.artist_name;
+        const artist_country = tempArtist.artist_country;
+        const artist_twitter_url = tempArtist.artist_twitter_url;
+        const artist_albums = albums;
+        let newArtist = new Artist(
+          artist_id,
+          artist_name,
+          artist_country,
+          artist_twitter_url,
+          artist_albums
+        );
+        res.json(newArtist);
+      })
+      .catch(function (err: any) {
+        console.log("ERROR: " + err);
       });
 
     // Lastly, create an artist and then send it
