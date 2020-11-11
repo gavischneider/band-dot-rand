@@ -20,6 +20,36 @@ app.use((req, res, next) => {
   next();
 });
 
+class Album {
+  constructor(
+    album_id: number,
+    album_mbid: number,
+    album_name: string,
+    album_rating: number,
+    album_track_count: number,
+    album_release_date: string,
+    album_release_type: string,
+    artist_id: number
+  ) {
+    (album_id = album_id),
+      (album_mbid = album_mbid),
+      (album_name = album_name),
+      (album_rating = album_rating),
+      (album_track_count = album_track_count),
+      (album_release_date = album_release_date),
+      (album_release_type = album_release_type),
+      (artist_id = artist_id);
+  }
+}
+
+interface ArtistData {
+  artist_id: number;
+  artist_name: string;
+  artist_country: string;
+  artist_twitter_url: string;
+  artist_albums: Array<Album>;
+}
+
 // Home route
 app.get("/", (req: Request, res: Response) => {
   res.send(
@@ -30,16 +60,15 @@ app.get("/", (req: Request, res: Response) => {
 // Random song route
 app.get("/random", async (req: Request, res: Response) => {
   try {
-    // Get random song
+    // First, get random song
     const song = await random.song();
     console.log(song);
-    //res.send(song);
 
-    // Get the artists ID from the song
+    // Second, extract the artists ID from the song
     const artistID = song.artist_id;
     console.log("ArtistID: " + artistID);
 
-    // Take the random song and get its artist
+    // Third, take the random song and get its artist
     music
       .artist({ artist_id: artistID })
       .then(function (data: any) {
@@ -48,6 +77,20 @@ app.get("/random", async (req: Request, res: Response) => {
       })
       .catch(function (err: any) {
         console.log("ERROR: " + err);
+      });
+
+    // Fourth, get the artist's albums
+    music
+      .artistAlbums({
+        artist_id: artistID,
+        s_release_date: "desc",
+        g_album_name: 1,
+      })
+      .then(function (data: any) {
+        console.log(data);
+      })
+      .catch(function (err: any) {
+        console.log(err);
       });
   } catch (error) {
     console.log(error);
