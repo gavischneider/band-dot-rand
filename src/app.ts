@@ -42,12 +42,20 @@ class Album {
   }
 }
 
-interface ArtistData {
-  artist_id: number;
-  artist_name: string;
-  artist_country: string;
-  artist_twitter_url: string;
-  artist_albums: Array<Album>;
+class Artist {
+  constructor(
+    artist_id: number,
+    artist_name: string,
+    artist_country: string,
+    artist_twitter_url: string,
+    artist_albums: Array<Album>
+  ) {
+    (artist_id = artist_id),
+      (artist_name = artist_name),
+      (artist_country = artist_country),
+      (artist_twitter_url = artist_twitter_url),
+      (artist_albums = artist_albums);
+  }
 }
 
 // Home route
@@ -60,7 +68,6 @@ app.get("/", (req: Request, res: Response) => {
 // Random song route
 app.get("/random", async (req: Request, res: Response) => {
   try {
-    // First, get random song
     const song = await random.song();
     console.log(song);
 
