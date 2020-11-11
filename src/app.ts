@@ -21,6 +21,14 @@ app.use((req, res, next) => {
 });
 
 class Album {
+  album_id: any;
+  album_mbid: any;
+  album_name: any;
+  album_rating: any;
+  album_track_count: any;
+  album_release_date: any;
+  album_release_type: any;
+  artist_id: any;
   constructor(
     album_id: number,
     album_mbid: number,
@@ -65,8 +73,10 @@ app.get("/", (req: Request, res: Response) => {
   );
 });
 
-// Random song route
+// Random band route
 app.get("/random", async (req: Request, res: Response) => {
+  let albums: Array<Album>;
+  let artist: Artist;
   try {
     const song = await random.song();
     console.log(song);
@@ -80,7 +90,7 @@ app.get("/random", async (req: Request, res: Response) => {
       .artist({ artist_id: artistID })
       .then(function (data: any) {
         console.log(data.message.body.artist);
-        res.send(data.message.body.artist);
+        //res.send(data.message.body.artist);
       })
       .catch(function (err: any) {
         console.log("ERROR: " + err);
@@ -94,11 +104,35 @@ app.get("/random", async (req: Request, res: Response) => {
         g_album_name: 1,
       })
       .then(function (data: any) {
-        console.log(data);
+        console.log("ALBUM_DATA: ");
+        console.log(data.message.body.album_list);
+        albums = data.message.body.album_list;
+        albums.forEach((album) => {
+          const album_id = album.album_id;
+          const album_mbid = album.album_mbid;
+          const album_name = album.album_name;
+          const album_rating = album.album_rating;
+          const album_track_count = album.album_track_count;
+          const album_release_date = album.album_release_date;
+          const album_release_type = album.album_release_type;
+          const artist_id = album.artist_id;
+          let newAlbum = new Album(
+            album_id,
+            album_mbid,
+            album_name,
+            album_rating,
+            album_track_count,
+            album_release_date,
+            album_release_type,
+            artist_id
+          );
+        });
       })
       .catch(function (err: any) {
         console.log(err);
       });
+
+    // Lastly, create an artist and then send it
   } catch (error) {
     console.log(error);
   }
