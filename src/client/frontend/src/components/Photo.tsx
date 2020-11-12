@@ -34,5 +34,5 @@ export const Photo = () => {
 
   if (image.length === 0) return <span>loading Image...</span>;
 
-  return <img src={String(image)} />;
+  return <img src={String(image[0])} />;
 };

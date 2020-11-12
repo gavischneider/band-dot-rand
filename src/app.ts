@@ -169,24 +169,31 @@ app.get("/random", async (req: Request, res: Response) => {
 
 // Get the artists profile pic
 app.get("/photo", async (req: Request, res: Response) => {
+  console.log("PHOTO ROUTE=============");
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
   if (ARTIST_NAME === "") {
     await delay(5000);
     console.log("Waited 5s");
   }
 
-  const artistName: string = ARTIST_NAME;
+  console.log("-----ARTIST NAME-----");
+  console.log(ARTIST_NAME.replace(/\s+/g, "-"));
+
+  const artistName: string = ARTIST_NAME.replace(/\s+/g, "-");
   const baseURL = "https://www.musixmatch.com/artist/";
 
   const browser: Browser = await puppeteer.launch();
   const page: Page = await browser.newPage();
 
-  await page.goto(baseURL + artistName, { waitUntil: "networkidle0" });
+  //await page.goto(baseURL + artistName, { waitUntil: "networkidle0" });
   await page.goto(baseURL + artistName, { waitUntil: "domcontentloaded" });
 
-  await page.waitForNavigation({
-    waitUntil: "networkidle0",
-  });
+  console.log("========URL========");
+  console.log(baseURL + artistName);
+
+  // await page.waitForNavigation({
+  //   waitUntil: "networkidle0",
+  // });
 
   const [photo]: any = await page.$x(
     '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
