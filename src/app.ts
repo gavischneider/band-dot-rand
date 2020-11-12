@@ -174,7 +174,10 @@ app.get("/photo", async (req: Request, res: Response) => {
   try {
     const browser: Browser = await puppeteer.launch();
     const page: Page = await browser.newPage();
-    await page.goto(baseURL + artistName);
+    //await page.goto(baseURL + artistName);
+
+    await page.goto(baseURL + artistName, { waitUntil: "networkidle0" });
+    await page.goto(baseURL + artistName, { waitUntil: "domcontentloaded" });
 
     const [photo]: any = await page.$x(
       '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
