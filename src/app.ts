@@ -169,30 +169,36 @@ app.get("/random", async (req: Request, res: Response) => {
 
 // Get the artists profile pic
 app.get("/photo", async (req: Request, res: Response) => {
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+  if (ARTIST_NAME === "") {
+    await delay(5000);
+    console.log("Waited 5s");
+  }
+
   const artistName: string = ARTIST_NAME;
   const baseURL = "https://www.musixmatch.com/artist/";
-  try {
-    const browser: Browser = await puppeteer.launch();
-    const page: Page = await browser.newPage();
-    //await page.goto(baseURL + artistName);
 
-    await page.goto(baseURL + artistName, { waitUntil: "networkidle0" });
-    await page.goto(baseURL + artistName, { waitUntil: "domcontentloaded" });
+  const browser: Browser = await puppeteer.launch();
+  const page: Page = await browser.newPage();
 
-    const [photo]: any = await page.$x(
-      '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
-    );
+  await page.goto(baseURL + artistName, { waitUntil: "networkidle0" });
+  await page.goto(baseURL + artistName, { waitUntil: "domcontentloaded" });
 
-    const src = await photo.getProperty("src");
-    const srcTxt = await src.jsonValue();
+  await page.waitForNavigation({
+    waitUntil: "networkidle0",
+  });
 
-    console.log(srcTxt);
-    browser.close();
+  const [photo]: any = await page.$x(
+    '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
+  );
 
-    res.send(srcTxt);
-  } catch (error) {
-    console.log(error);
-  }
+  const src = await photo.getProperty("src");
+  const srcTxt = await src.jsonValue();
+
+  console.log(srcTxt);
+  browser.close();
+
+  res.send(srcTxt);
 });
 
 app.listen(PORT, () => console.log("Server running on port 3001"));
