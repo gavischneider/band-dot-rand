@@ -22,6 +22,8 @@ const random: any = new randomSong(process.env.API_KEY);
 
 const PORT: string | number = process.env.PORT || 3001;
 
+let ARTIST_NAME: string = "";
+
 // Allows frontend to call backend API
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -95,7 +97,7 @@ app.get("/random", async (req: Request, res: Response) => {
 
     // Second, extract the artists ID from the song
     const artistID = song.artist_id;
-    const name = song.artist_name;
+    ARTIST_NAME = song.artist_name;
 
     // Third, get the artist's albums
     music
@@ -166,6 +168,28 @@ app.get("/random", async (req: Request, res: Response) => {
 });
 
 // Get the artists profile pic
-app.get("/photo", async (req: Request, res: Response) => {});
+app.get("/photo", async (req: Request, res: Response) => {
+  const artistName: string = ARTIST_NAME;
+  const baseURL = "https://www.musixmatch.com/artist/";
+  try {
+    const browser: Browser = await puppeteer.launch();
+    const page: Page = await browser.newPage();
+    await page.goto(baseURL + artistName);
+
+    const [photo]: any = await page.$x(
+      '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
+    );
+
+    const src = await photo.getProperty("src");
+    const srcTxt = await src.jsonValue();
+
+    console.log(srcTxt);
+    browser.close();
+
+    res.send(srcTxt);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.listen(PORT, () => console.log("Server running on port 3001"));
