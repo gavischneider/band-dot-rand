@@ -2,8 +2,7 @@ import { Browser, Page } from "puppeteer";
 
 const puppeteer = require("puppeteer");
 
-let testURL: string =
-  "https://www.musixmatch.com/lyrics/Muse/Get-Up-and-Fight?utm_source=application&utm_campaign=api&utm_medium=Student+Developer%3A1409620630471";
+//let testURL: string = "https://www.musixmatch.com/artist/Muse";
 
 async function scrapeArtistPage(url: string) {
   console.log("hello");
@@ -11,17 +10,22 @@ async function scrapeArtistPage(url: string) {
   const page: Page = await browser.newPage();
   await page.goto(url);
 
-  //   const [artistButton]: any = await page.$x(
-  //     '//*[@id="site"]/div/div/div/main/div/div/div[2]/div/div/div/div[2]/div[1]/div[1]/h2/span/a'
-  //   );
-
+  // Get artist profile pic
   const [photo]: any = await page.$x(
-    '//*[@id="site"]/div/div/div/main/div/div/div[2]/div/div/div/div[1]/div/div/div/img'
+    '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
   );
   const src = await photo.getProperty("src");
   const srcTxt = await src.jsonValue();
 
   console.log(srcTxt);
+
+  browser.close();
+
+  return srcTxt;
 }
 
-scrapeArtistPage(testURL);
+//scrapeArtistPage(testURL);
+
+exports.scrapeArtistPage = scrapeArtistPage;
+module.exports = scrapeArtistPage;
+export default scrapeArtistPage;

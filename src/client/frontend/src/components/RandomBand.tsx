@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { response } from "express";
 
-export const RandomSong = () => {
+export const RandomBand = () => {
   const [initialState, setInitialState] = useState<ArtistData[]>([]);
 
   // Backend API

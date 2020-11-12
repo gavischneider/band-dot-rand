@@ -1,4 +1,12 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
+//import scrapeArtistPage from "./scrapers";
+//const scrapeArtistPage = require("scrapers");
+
+//-------
+import { Browser, Page } from "puppeteer";
+
+const puppeteer = require("puppeteer");
+//--------
 
 const APIKey = "5a6a3319d10b8dd4593f110d6db57172";
 const randomSong: any = require("@chatandshare/random-song");
@@ -15,7 +23,7 @@ const random: any = new randomSong(process.env.API_KEY);
 const PORT: string | number = process.env.PORT || 3001;
 
 // Allows frontend to call backend API
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
@@ -87,6 +95,7 @@ app.get("/random", async (req: Request, res: Response) => {
 
     // Second, extract the artists ID from the song
     const artistID = song.artist_id;
+    const name = song.artist_name;
 
     // Third, get the artist's albums
     music
@@ -126,7 +135,7 @@ app.get("/random", async (req: Request, res: Response) => {
         console.log(err);
       });
 
-    // Fourth, get the actual artist
+    // Fourth, get the actual artist, create an artist object and then send it
     music
       .artist({ artist_id: artistID })
       .then(function (data: any) {
@@ -136,6 +145,7 @@ app.get("/random", async (req: Request, res: Response) => {
         const artist_country = artist.artist_country;
         const artist_twitter_url = artist.artist_twitter_url;
         const artist_albums = albums;
+
         let newArtist = new Artist(
           artist_id,
           artist_name,
@@ -150,10 +160,12 @@ app.get("/random", async (req: Request, res: Response) => {
       .catch(function (err: any) {
         console.log("ERROR: " + err);
       });
-
-    // Lastly, create an artist and then send it
   } catch (error) {
     console.log(error);
   }
 });
+
+// Get the artists profile pic
+app.get("/photo", async (req: Request, res: Response) => {});
+
 app.listen(PORT, () => console.log("Server running on port 3001"));

@@ -2,12 +2,12 @@ import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 
-import { RandomSong } from "./components/RandomSong";
+import { RandomBand } from "./components/RandomBand";
 
 function App() {
   return (
     <div className="App">
-      <RandomSong />
+      <RandomBand />
     </div>
   );
 }
