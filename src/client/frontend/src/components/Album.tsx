@@ -6,9 +6,12 @@ export const Album = (props: any) => {
 
   // Backend API
   const proxyUrl = "http://localhost:3001";
-  const api = "/album";
+  const api = "/album/";
   const artist = props.artist;
   const album = props.album;
+
+  console.log("----PROPS----");
+  console.log(props);
 
   useEffect(() => {
     (async function callAPI() {
@@ -21,17 +24,21 @@ export const Album = (props: any) => {
         })
         .then((response) => {
           setImage(response.data);
-          console.log("RESPONSE.DATA");
+          console.log("ALBUM RESPONSE.DATA");
           console.log(response.data);
         })
         .catch((error) => console.log(error));
     })();
   }, []);
 
-  console.log("Image (state): ");
+  console.log("Album Image (state): ");
   console.log(image);
 
-  if (!image) return <span>loading Image...</span>;
+  if (!image) return <span>loading Album Cover...</span>;
 
-  return <img src={image} />;
+  return (
+    <div>
+      <img src={image} />
+    </div>
+  );
 };

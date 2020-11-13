@@ -78,7 +78,7 @@ class Artist {
       (this.artist_name = artist_name),
       (this.artist_country = artist_country),
       (this.artist_twitter_url = artist_twitter_url),
-      (this.artist_albums = artist_albums);
+      (this.artist_albums = new Array());
   }
 }
 
@@ -110,8 +110,8 @@ app.get("/random", async (req: Request, res: Response) => {
       .then(function (data: any) {
         let tempAlbums = data.message.body.album_list;
 
-        console.log("----LIST OF ALBUMS BEFORE I CHANGE ANYTHING----");
-        console.log(tempAlbums);
+        //console.log("----LIST OF ALBUMS BEFORE I CHANGE ANYTHING----");
+        //console.log(tempAlbums);
 
         tempAlbums.forEach((album: any) => {
           const album_id = album.album.album_id;
@@ -134,8 +134,8 @@ app.get("/random", async (req: Request, res: Response) => {
           );
           albums.push(newAlbum);
         });
-        console.log("----- FINAL ALBUMS READY -----");
-        console.log(albums);
+        //console.log("----- FINAL ALBUMS READY -----");
+        //console.log(albums);
       })
       .catch(function (err: any) {
         console.log(err);
@@ -150,17 +150,29 @@ app.get("/random", async (req: Request, res: Response) => {
         const artist_name = artist.artist_name;
         const artist_country = artist.artist_country;
         const artist_twitter_url = artist.artist_twitter_url;
-        const artist_albums = albums;
+        //const artist_albums = albums;
 
         let newArtist = new Artist(
           artist_id,
           artist_name,
           artist_country,
           artist_twitter_url,
-          artist_albums
+          []
         );
+
+        console.log("12345 HERES THE MAP 54321");
+        albums.map((album) => {
+          console.log("--------ALBUMSSSSSSSASSSSS--------");
+          console.log(album);
+          console.log("--------------------------");
+          newArtist.artist_albums.push(album);
+        });
         console.log("----- FINAL ARTIST READY -----");
         console.log(newArtist);
+
+        //console.log("----- FINAL ARTIST READY - HERES THE ALBUMS -----");
+        //console.log(newArtist.artist_albums);
+
         res.send(newArtist);
       })
       .catch(function (err: any) {

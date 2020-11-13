@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { response } from "express";
 import { Photo } from "./Photo";
 import { Album } from "./Album";
 
@@ -53,6 +52,9 @@ export const RandomBand = () => {
   console.log("initialState[0]: ");
   console.log(initialState[0]);
 
+  //console.log("initialState[0].artist_albums: ");
+  //console.log(initialState[0].artist_albums);
+
   if (!initialState[0]) return <span>loading...</span>;
 
   return (
@@ -71,6 +73,17 @@ export const RandomBand = () => {
       ) : (
         <h3>""</h3>
       )}
+      <div>
+        {initialState[0].artist_albums.map((album) => {
+          <div>
+            <Album
+              key={album.album_id}
+              artist={initialState[0].artist_name}
+              album={album.album_name}
+            />
+          </div>;
+        })}
+      </div>
     </div>
   );
 };
