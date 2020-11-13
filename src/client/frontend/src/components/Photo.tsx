@@ -8,10 +8,6 @@ export const Photo = () => {
   const proxyUrl = "http://localhost:3001";
   const api = "/photo";
 
-  interface Image {
-    src: string;
-  }
-
   useEffect(() => {
     (async function callAPI() {
       axios
