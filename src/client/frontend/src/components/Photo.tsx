@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export const Photo = () => {
-  const [image, setImage] = useState<Image[]>([]);
+  const [image, setImage] = useState<string>("");
 
   // Backend API
   const proxyUrl = "http://localhost:3001";
@@ -15,13 +15,9 @@ export const Photo = () => {
   useEffect(() => {
     (async function callAPI() {
       axios
-        .get<Image>(proxyUrl + api)
+        .get(proxyUrl + api)
         .then((response) => {
-          setImage([
-            {
-              ...response.data,
-            },
-          ]);
+          setImage(response.data);
           console.log("RESPONSE.DATA");
           console.log(response.data);
         })
@@ -32,7 +28,7 @@ export const Photo = () => {
   console.log("Image (state): ");
   console.log(image);
 
-  if (image.length === 0) return <span>loading Image...</span>;
+  if (!image) return <span>loading Image...</span>;
 
-  return <img src={String(image[0])} />;
+  return <img src={image} />;
 };
