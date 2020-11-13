@@ -1,12 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from "express";
-//import scrapeArtistPage from "./scrapers";
-//const scrapeArtistPage = require("scrapers");
-
-//-------
 import { Browser, Page } from "puppeteer";
 
 const puppeteer = require("puppeteer");
-//--------
+const bodyParser = require("body-parser");
 
 const APIKey = "5a6a3319d10b8dd4593f110d6db57172";
 const randomSong: any = require("@chatandshare/random-song");
@@ -24,11 +20,16 @@ const PORT: string | number = process.env.PORT || 3001;
 
 let ARTIST_NAME: string = "";
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 // Allows frontend to call backend API
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
+
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 class Album {
   album_id: any;
@@ -109,6 +110,9 @@ app.get("/random", async (req: Request, res: Response) => {
       .then(function (data: any) {
         let tempAlbums = data.message.body.album_list;
 
+        console.log("----LIST OF ALBUMS BEFORE I CHANGE ANYTHING----");
+        console.log(tempAlbums);
+
         tempAlbums.forEach((album: any) => {
           const album_id = album.album.album_id;
           const album_mbid = album.album.album_mbid;
@@ -170,7 +174,7 @@ app.get("/random", async (req: Request, res: Response) => {
 // Get the artists profile pic
 app.get("/photo", async (req: Request, res: Response) => {
   console.log("PHOTO ROUTE=============");
-  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
   if (ARTIST_NAME === "") {
     await delay(5000);
     console.log("Waited 5s");
@@ -188,15 +192,42 @@ app.get("/photo", async (req: Request, res: Response) => {
   //await page.goto(baseURL + artistName, { waitUntil: "networkidle0" });
   await page.goto(baseURL + artistName, { waitUntil: "domcontentloaded" });
 
-  console.log("========URL========");
-  console.log(baseURL + artistName);
-
-  // await page.waitForNavigation({
-  //   waitUntil: "networkidle0",
-  // });
-
   const [photo]: any = await page.$x(
     '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
+  );
+
+  const src = await photo.getProperty("src");
+  const srcTxt = await src.jsonValue();
+
+  console.log(srcTxt);
+  browser.close();
+
+  res.send(srcTxt);
+});
+
+// Get an album cover art
+app.get("/album", async (req: Request, res: Response) => {
+  console.log("ALBUM ROUTE=============");
+
+  // Get album id from query
+  const artist: any = req.query.artist;
+  const album: any = req.query.album;
+
+  const albumName: any = album.replace(/\s+/g, "-");
+  const baseURL = "https://www.musixmatch.com/album/";
+
+  const browser: Browser = await puppeteer.launch();
+  const page: Page = await browser.newPage();
+
+  console.log("FULL API URL FOR ALBUM");
+  console.log(`${baseURL}${artist}/${albumName}`);
+
+  await page.goto(`${baseURL}${artist}/${albumName}`, {
+    waitUntil: "domcontentloaded",
+  });
+
+  const [photo]: any = await page.$x(
+    '//*[@id="site"]/div/div/div/main/div/div[2]/div/div[1]/div/div[2]/div/img'
   );
 
   const src = await photo.getProperty("src");
