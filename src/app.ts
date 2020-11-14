@@ -96,6 +96,7 @@ app.get("/", (req: Request, res: Response) => {
 
 // Random band route
 app.get("/random", async (req: Request, res: Response) => {
+  console.log("RANDOM ROUTE================");
   INDEX = 0;
   let albums: Album[] = [];
   try {
@@ -113,9 +114,8 @@ app.get("/random", async (req: Request, res: Response) => {
         s_release_date: "desc",
         g_album_name: 1,
       })
-      .then(function (data: any) {
-        // Maybe add the rest of the code in here?
-        let tempAlbums = data.message.body.album_list;
+      .then(async function (data: any) {
+        let tempAlbums = await data.message.body.album_list;
 
         console.log("----LIST OF ALBUMS BEFORE I CHANGE ANYTHING----");
         console.log(tempAlbums);
@@ -149,11 +149,9 @@ app.get("/random", async (req: Request, res: Response) => {
         });
         // ------------------------------------------------------------
 
-        //console.log("----- FINAL ALBUMS READY -----");
-        //console.log(albums);
-
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         // This is the code that I added from below
+
         // Fourth, get the actual artist, create an artist object and then send it
         music
           .artist({ artist_id: artistID })
@@ -197,14 +195,23 @@ app.get("/random", async (req: Request, res: Response) => {
             })();
           })
           .catch(function (err: any) {
+            console.log(
+              "// Got kicked out in this function - Trying to get the artist by ID"
+            );
             console.log("ERROR: " + err);
           });
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       })
       .catch(function (err: any) {
+        console.log(
+          "// Got kicked out in this function - Trying to get the artists albums"
+        );
         console.log(err);
       });
   } catch (error) {
+    console.log(
+      "// Got kicked out in this function - Right after the try at the beginning"
+    );
     console.log(error);
   }
 });
