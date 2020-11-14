@@ -7,7 +7,7 @@ export const Album = (props: any) => {
   // Backend API
   const proxyUrl = "http://localhost:3001";
   const api = "/album/";
-  const artist = props.artist;
+  const artist = props.artist.replace(/\s+/g, "-");
   const album = props.album;
 
   console.log("----PROPS----");

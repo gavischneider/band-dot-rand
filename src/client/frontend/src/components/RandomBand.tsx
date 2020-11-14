@@ -52,6 +52,9 @@ export const RandomBand = () => {
   console.log("initialState[0]: ");
   console.log(initialState[0]);
 
+  //console.log("initialState[0].artist_albums[1] (ALBUM): ");
+  //console.log(initialState[0].artist_albums[1]);
+
   //console.log("initialState[0].artist_albums: ");
   //console.log(initialState[0].artist_albums);
 
@@ -74,15 +77,12 @@ export const RandomBand = () => {
         <h3>""</h3>
       )}
       <div>
-        {initialState[0].artist_albums.map((album) => {
-          <div>
-            <Album
-              key={album.album_id}
-              artist={initialState[0].artist_name}
-              album={album.album_name}
-            />
-          </div>;
-        })}
+        <Album
+          key={1}
+          artist={initialState[0].artist_name}
+          album={initialState[0].artist_albums[1]}
+        />
+        ;
       </div>
     </div>
   );
