@@ -114,16 +114,13 @@ app.get("/random", async (req: Request, res: Response) => {
         g_album_name: 1,
       })
       .then(function (data: any) {
+        // Maybe add the rest of the code in here?
         let tempAlbums = data.message.body.album_list;
 
-        // ---------------------
-        ALBUMS_LENGTH = tempAlbums.length;
-        // ---------------------
+        console.log("----LIST OF ALBUMS BEFORE I CHANGE ANYTHING----");
+        console.log(tempAlbums);
 
-        //console.log("----LIST OF ALBUMS BEFORE I CHANGE ANYTHING----");
-        //console.log(tempAlbums);
-
-        tempAlbums.forEach((album: any) => {
+        tempAlbums.map((album: any) => {
           const album_id = album.album.album_id;
           const album_mbid = album.album.album_mbid;
           const album_name = album.album.album_name;
@@ -143,69 +140,69 @@ app.get("/random", async (req: Request, res: Response) => {
             artist_id
           );
           albums.push(newAlbum);
+          ALBUMS.push(newAlbum);
         });
 
         // ---- THE NEW ALBUMS ---------------------------------------
-        albums.map((album) => {
-          ALBUMS.push(album);
-        });
-
-        ALBUMS.map((album: any) => {
+        albums.map((album: any) => {
           ALBUM_NAMES.push(album.album_name);
         });
         // ------------------------------------------------------------
 
         //console.log("----- FINAL ALBUMS READY -----");
         //console.log(albums);
+
+        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // This is the code that I added from below
+        // Fourth, get the actual artist, create an artist object and then send it
+        music
+          .artist({ artist_id: artistID })
+          .then(function (data: any) {
+            const artist = data.message.body.artist;
+            const artist_id = artist.artist_id;
+            const artist_name = artist.artist_name;
+            const artist_country = artist.artist_country;
+            const artist_twitter_url = artist.artist_twitter_url;
+            //const artist_albums = albums;
+
+            let newArtist = new Artist(
+              artist_id,
+              artist_name,
+              artist_country,
+              artist_twitter_url,
+              []
+            );
+            (async function wait() {
+              if (albums.length == 0) {
+                await delay(5000);
+                console.log("Waited 5s");
+                console.log("HERES THE ALBUMS -BEFORE- THE MAP");
+                console.log(albums); /// ------------------------------------ line 181, have the albums
+
+                console.log("12345 HERES THE MAP 54321");
+                albums.map((album) => {
+                  console.log("--------ALBUMSSSSSSSASSSSS--------");
+                  console.log(album);
+                  console.log("--------------------------");
+                  newArtist.artist_albums.push(album);
+                });
+                console.log("----- FINAL ARTIST READY -----");
+                console.log(newArtist);
+
+                console.log("----- HERES THE ALBUM NAMES -----");
+                console.log(ALBUM_NAMES);
+
+                res.send(newArtist);
+              }
+            })();
+          })
+          .catch(function (err: any) {
+            console.log("ERROR: " + err);
+          });
+        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       })
       .catch(function (err: any) {
         console.log(err);
-      });
-
-    // Fourth, get the actual artist, create an artist object and then send it
-    music
-      .artist({ artist_id: artistID })
-      .then(function (data: any) {
-        const artist = data.message.body.artist;
-        const artist_id = artist.artist_id;
-        const artist_name = artist.artist_name;
-        const artist_country = artist.artist_country;
-        const artist_twitter_url = artist.artist_twitter_url;
-        //const artist_albums = albums;
-
-        let newArtist = new Artist(
-          artist_id,
-          artist_name,
-          artist_country,
-          artist_twitter_url,
-          []
-        );
-        (async function wait() {
-          if (albums.length == 0) {
-            await delay(5000);
-            console.log("Waited 5s");
-            console.log("HERES THE ALBUMS -BEFORE- THE MAP");
-            console.log(albums);
-
-            console.log("12345 HERES THE MAP 54321");
-            albums.map((album) => {
-              console.log("--------ALBUMSSSSSSSASSSSS--------");
-              console.log(album);
-              console.log("--------------------------");
-              newArtist.artist_albums.push(album);
-            });
-            console.log("----- FINAL ARTIST READY -----");
-            console.log(newArtist);
-
-            //console.log("----- FINAL ARTIST READY - HERES THE ALBUMS -----");
-            //console.log(newArtist.artist_albums);
-
-            res.send(newArtist);
-          }
-        })();
-      })
-      .catch(function (err: any) {
-        console.log("ERROR: " + err);
       });
   } catch (error) {
     console.log(error);
@@ -250,11 +247,23 @@ app.get("/photo", async (req: Request, res: Response) => {
 app.get("/album", async (req: Request, res: Response) => {
   console.log("ALBUM ROUTE=============");
 
+  console.log("ALBUM NAMES BEFORE REPLACING");
+  console.log(ALBUM_NAMES);
+
+  console.log("INDEX");
+  console.log(INDEX);
+
   console.log("ALBUM BEFORE REPLACING");
   console.log(ALBUM_NAMES[INDEX]);
 
+  if (ALBUM_NAMES.length == 0) {
+    await delay(5000);
+    console.log("Waited 5s");
+  }
+
   // ALBUM_NAMES...
-  const albumName = ALBUM_NAMES[INDEX].replace(/\s+/g, "-").replace(/()/g, "");
+  let albumName = await ALBUM_NAMES[INDEX];
+  albumName = albumName.replace(/\s+/g, "-").replace(/()/g, "");
   //.replace(/---/g, "-")
   //.replace(/.../g, "");
   //.replace(/--/g, "-");
@@ -264,42 +273,11 @@ app.get("/album", async (req: Request, res: Response) => {
   console.log(albumName);
 
   INDEX++;
-  //------
-  // console.log("+++ARTIST NAME + ALBUM NAME --- FROM THE QUERY+++");
-  // console.log(req.query.artist);
-  // console.log(req.query.album);
-  // //------
 
-  // // Get album id from query
-  // const artist: any = req.query.artist;
-  // const album: any = req.query.album;
-
-  // const artistName: any = await artist.replace(/\s+/g, "-");
-
-  // ///--------------------- Wait for album.album_name --------------------
-
-  // //if (!album.album_name) {
-  // //await delay(5000);
-  // //console.log("Waited 5s");
-
-  // // const albumName: any = album.album_name
-  // //   ? album.album_name.replace(/\s+/g, "-")
-  // //   : null;
-
-  // const albumName: any = await album["album_name"]; //.replace(/\s+/g, "-");
   const baseURL = "https://www.musixmatch.com/album/";
-
-  // //------
-  // console.log("+++ARTIST NAME + ALBUM NAME+++");
-  // console.log(artistName);
-  // console.log(albumName);
-  //------
 
   const browser: Browser = await puppeteer.launch();
   const page: Page = await browser.newPage();
-
-  //const y: any = req.query.album;
-  //const z = y.album_name;
 
   console.log("FULL API URL FOR ALBUM");
   console.log(`${baseURL}${artistName}/${albumName}`);
@@ -319,7 +297,6 @@ app.get("/album", async (req: Request, res: Response) => {
   browser.close();
 
   res.send(srcTxt);
-  //}
 });
 
 app.listen(PORT, () => console.log("Server running on port 3001"));
