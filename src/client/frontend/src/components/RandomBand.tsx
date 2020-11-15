@@ -22,10 +22,10 @@ export const RandomBand = () => {
   }
 
   interface ArtistData {
-    artist_id: number;
-    artist_name: string;
-    artist_country: string;
-    artist_twitter_url: string;
+    id: number;
+    name: string;
+    external_urls: any;
+    images: any;
     //artist_albums: Array<Album>;
   }
 
@@ -54,16 +54,13 @@ export const RandomBand = () => {
   return (
     <div>
       <h1>Artist Info:</h1>
-      <Photo />
-      <h3>Artist Name: {initialState[0].artist_name}</h3>
-      <h3>Artist ID: {initialState[0].artist_id}</h3>
-      {initialState[0].artist_country ? (
-        <h3>Artist Country: {initialState[0].artist_country}</h3>
-      ) : (
-        <h3>""</h3>
-      )}
-      {initialState[0].artist_twitter_url ? (
-        <h3>Artist Twitter URL: {initialState[0].artist_twitter_url}</h3>
+      <img src={initialState[0].images[1].url} />;
+      <h3>Artist Name: {initialState[0].name}</h3>
+      <h3>Artist ID: {initialState[0].id}</h3>
+      {initialState[0].external_urls.spotify ? (
+        <h3>
+          <a href={initialState[0].external_urls.spotify}>Artist Spotify URL</a>
+        </h3>
       ) : (
         <h3>""</h3>
       )}
