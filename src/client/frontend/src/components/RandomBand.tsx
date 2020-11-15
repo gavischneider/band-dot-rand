@@ -9,23 +9,12 @@ export const RandomBand = () => {
   const proxyUrl = "http://localhost:3001";
   const api = "/random";
 
-  interface Album {
-    album_id: number;
-    album_mbid: number;
-    album_name: string;
-    album_rating: number;
-    album_track_count: number;
-    album_release_date: string;
-    album_release_type: string;
-    artist_id: number;
-  }
-
   interface ArtistData {
     id: number;
     name: string;
     external_urls: any;
     images: any;
-    albums: Array<Album>;
+    albums: [];
   }
 
   useEffect(() => {
