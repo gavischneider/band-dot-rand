@@ -120,121 +120,7 @@ app.get("/", (req: Request, res: Response) => {
 
 // Random band route
 app.get("/random", async (req: Request, res: Response) => {
-  // console.log("RANDOM ROUTE================");
-  // INDEX = 0;
-  // let albums: Album[] = [];
-  // try {
-  //   const song = await random.song();
-  //   console.log(song);
-
-  //   // Second, extract the artists ID from the song
-  //   const artistID = song.artist_id;
-  //   ARTIST_NAME = song.artist_name;
-
-  //   // Third, get the artist's albums
-  //   music
-  //     .artistAlbums({
-  //       artist_id: artistID,
-  //       s_release_date: "desc",
-  //       g_album_name: 1,
-  //     })
-  //     .then(async function (data: any) {
-  //       let tempAlbums = await data.message.body.album_list;
-
-  //       console.log(
-  //         "-----Here are the artists albums right when we get them from the API-----"
-  //       );
-  //       console.log(tempAlbums);
-
-  //       tempAlbums.map((album: any) => {
-  //         const album_id = album.album.album_id;
-  //         const album_mbid = album.album.album_mbid;
-  //         const album_name = album.album.album_name;
-  //         const album_rating = album.album.album_rating;
-  //         const album_track_count = album.album.album_track_count;
-  //         const album_release_date = album.album.album_release_date;
-  //         const album_release_type = album.album.album_release_type;
-  //         const artist_id = album.album.artist_id;
-  //         let newAlbum = new Album(
-  //           album_id,
-  //           album_mbid,
-  //           album_name,
-  //           album_rating,
-  //           album_track_count,
-  //           album_release_date,
-  //           album_release_type,
-  //           artist_id
-  //         );
-  //         albums.push(newAlbum);
-  //       });
-
-  //       albums.map((album: any) => {
-  //         ALBUM_NAMES.push(album.album_name);
-  //       });
-
-  //       console.log(
-  //         "-----Here are the artists albums NAMES right after mapping through the albums-----"
-  //       );
-  //       console.log(ALBUM_NAMES);
-
-  //       // Fourth, get the actual artist, create an artist object and then send it
-  //       music
-  //         .artist({ artist_id: artistID })
-  //         .then(function (data: any) {
-  //           const artist = data.message.body.artist;
-  //           const artist_id = artist.artist_id;
-  //           const artist_name = artist.artist_name;
-  //           const artist_country = artist.artist_country;
-  //           const artist_twitter_url = artist.artist_twitter_url;
-  //           //const artist_albums = albums;
-
-  //           let newArtist = new Artist(
-  //             artist_id,
-  //             artist_name,
-  //             artist_country,
-  //             artist_twitter_url,
-  //             []
-  //           );
-
-  //           console.log(
-  //             "-----Here is the new artist right after creating an Artist object-----"
-  //           );
-  //           console.log(newArtist);
-
-  //           (async function wait() {
-  //             if (albums.length == 0) {
-  //               await delay(5000);
-  //               console.log("Waited 5s");
-
-  //               albums.map((album) => {
-  //                 newArtist.artist_albums.push(album);
-  //               });
-
-  //               res.send(newArtist);
-  //             }
-  //           })();
-  //         })
-  //         .catch(function (err: any) {
-  //           console.log(
-  //             "// Got kicked out in this function - Trying to get the artist by ID"
-  //           );
-  //           console.log("ERROR: " + err);
-  //         });
-  //     })
-  //     .catch(function (err: any) {
-  //       console.log(
-  //         "// Got kicked out in this function - Trying to get the artists albums"
-  //       );
-  //       console.log(err);
-  //     });
-  // } catch (error) {
-  //   console.log(
-  //     "// Got kicked out in this function - Right after the try at the beginning"
-  //   );
-  //   console.log(error);
-  // }
-
-  // -=-=-=-=-=-=
+  // Get a random query prefix
   let rand = (function getRandomSearch() {
     // A list of all characters that can be chosen.
     const characters = "abcdefghijklmnopqrstuvwxyz";
@@ -259,7 +145,7 @@ app.get("/random", async (req: Request, res: Response) => {
   })();
   const randomOffset = Math.floor(Math.random() * 10000);
 
-  // Search artists whose name contains 'Love'
+  // Search artists whose name starts with the random query prefix
   spotifyApi.searchArtists(rand).then(
     function (data: any) {
       console.log("Search artists by random query", data.body);
@@ -275,7 +161,27 @@ app.get("/random", async (req: Request, res: Response) => {
 
       console.log("---------- HERE IS THE RANDOM ARTIST ----------");
       console.log(randomArtist);
-      res.send(randomArtist);
+      //res.send(randomArtist);
+
+      // Get the artists albums
+      spotifyApi.getArtistAlbums(randomArtist.id).then(
+        function (data: any) {
+          console.log("Artist albums", data.body);
+          const albums: any = data.body.items;
+
+          // Combine the random artist with its albums and send
+          let finalArtist = {
+            ...randomArtist,
+            albums,
+          };
+          console.log("---------- HERE IS THE *FINAL* ARTIST ----------");
+          console.log(finalArtist);
+          res.send(finalArtist);
+        },
+        function (err: Error) {
+          console.error(err);
+        }
+      );
     },
     function (err: Error) {
       console.error(err);
@@ -283,93 +189,18 @@ app.get("/random", async (req: Request, res: Response) => {
   );
 });
 
-// Get the artists profile pic
-app.get("/photo", async (req: Request, res: Response) => {
-  console.log("PHOTO ROUTE=============");
-
-  if (ARTIST_NAME === "") {
-    await delay(5000);
-    console.log("Waited 5s");
-  }
-
-  console.log("-----ARTIST NAME-----");
-  console.log(ARTIST_NAME.replace(/\s+/g, "-"));
-
-  const artistName: string = ARTIST_NAME.replace(/\s+/g, "-");
-  const baseURL = "https://www.musixmatch.com/artist/";
-
-  const browser: Browser = await puppeteer.launch();
-  const page: Page = await browser.newPage();
-
-  await page.goto(baseURL + artistName, { waitUntil: "domcontentloaded" });
-
-  const [photo]: any = await page.$x(
-    '//*[@id="content"]/div/div[1]/div/div[3]/div/div[1]/img'
-  );
-
-  const src = await photo.getProperty("src");
-  const srcTxt = await src.jsonValue();
-
-  console.log(srcTxt);
-  browser.close();
-
-  res.send(srcTxt);
-});
-
 // Get an album cover art
 app.get("/album", async (req: Request, res: Response) => {
   console.log("ALBUM ROUTE=============");
-
-  console.log("ALBUM NAMES BEFORE REPLACING");
-  console.log(ALBUM_NAMES);
-
-  console.log("INDEX");
-  console.log(INDEX);
-
-  console.log("ALBUM BEFORE REPLACING");
-  console.log(ALBUM_NAMES[INDEX]);
-
-  if (ALBUM_NAMES.length == 0) {
-    await delay(5000);
-    console.log("Waited 5s");
-  }
-
-  // ALBUM_NAMES...
-  let albumName = await ALBUM_NAMES[INDEX];
-  albumName = albumName.replace(/\s+/g, "-").replace(/()/g, "");
-  //.replace(/---/g, "-")
-  //.replace(/.../g, "");
-  //.replace(/--/g, "-");
-  const artistName = ARTIST_NAME.replace(/\s+/g, "-");
-
-  console.log("ALBUM_NAME - FINAL");
-  console.log(albumName);
-
-  INDEX++;
-
-  const baseURL = "https://www.musixmatch.com/album/";
-
-  const browser: Browser = await puppeteer.launch();
-  const page: Page = await browser.newPage();
-
-  console.log("FULL API URL FOR ALBUM");
-  console.log(`${baseURL}${artistName}/${albumName}`);
-
-  await page.goto(`${baseURL}${artistName}/${albumName}`, {
-    waitUntil: "domcontentloaded",
-  });
-
-  const [photo]: any = await page.$x(
-    '//*[@id="site"]/div/div/div/main/div/div[2]/div/div[1]/div/div[2]/div/img'
+  // Get albums by a certain artist
+  spotifyApi.getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE").then(
+    function (data: any) {
+      console.log("Artist albums", data.body);
+    },
+    function (err: Error) {
+      console.error(err);
+    }
   );
-
-  const src = await photo.getProperty("src");
-  const srcTxt = await src.jsonValue();
-
-  console.log(srcTxt);
-  browser.close();
-
-  res.send(srcTxt);
 });
 
 app.listen(PORT, () => console.log("Server running on port 3001"));

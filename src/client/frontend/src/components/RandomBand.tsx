@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Photo } from "./Photo";
+import { ArtistsAlbums } from "./ArtistsAlbums";
 import { Album } from "./Album";
 
 export const RandomBand = () => {
@@ -26,7 +26,7 @@ export const RandomBand = () => {
     name: string;
     external_urls: any;
     images: any;
-    //artist_albums: Array<Album>;
+    albums: Array<Album>;
   }
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export const RandomBand = () => {
   return (
     <div>
       <h1>Artist Info:</h1>
-      <img src={initialState[0].images[1].url} />;
+      <img src={initialState[0].images[1].url} />
       <h3>Artist Name: {initialState[0].name}</h3>
       <h3>Artist ID: {initialState[0].id}</h3>
       {initialState[0].external_urls.spotify ? (
@@ -64,7 +64,7 @@ export const RandomBand = () => {
       ) : (
         <h3>""</h3>
       )}
-      <div></div>
+      <ArtistsAlbums albums={initialState[0].albums} />
     </div>
   );
 };
