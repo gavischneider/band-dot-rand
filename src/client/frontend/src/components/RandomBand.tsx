@@ -26,7 +26,7 @@ export const RandomBand = () => {
     artist_name: string;
     artist_country: string;
     artist_twitter_url: string;
-    artist_albums: Array<Album>;
+    //artist_albums: Array<Album>;
   }
 
   useEffect(() => {
@@ -49,15 +49,6 @@ export const RandomBand = () => {
   console.log("initialState: ");
   console.log(initialState);
 
-  console.log("initialState[0]: ");
-  console.log(initialState[0]);
-
-  //console.log("initialState[0].artist_albums[1] (ALBUM): ");
-  //console.log(initialState[0].artist_albums[1]);
-
-  //console.log("initialState[0].artist_albums: ");
-  //console.log(initialState[0].artist_albums);
-
   if (!initialState[0]) return <span>loading...</span>;
 
   return (
@@ -76,14 +67,7 @@ export const RandomBand = () => {
       ) : (
         <h3>""</h3>
       )}
-      <div>
-        <Album
-          key={1}
-          artist={initialState[0].artist_name}
-          album={initialState[0].artist_albums[1]}
-        />
-        ;
-      </div>
+      <div></div>
     </div>
   );
 };

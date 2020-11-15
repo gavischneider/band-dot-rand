@@ -3,12 +3,38 @@ import { Browser, Page } from "puppeteer";
 
 const puppeteer = require("puppeteer");
 const bodyParser = require("body-parser");
+const SpotifyWebApi = require("spotify-web-api-node");
+const fetch = require("node-fetch");
 
+// ---------- Musixmatch API ----------------------------
 const APIKey = "5a6a3319d10b8dd4593f110d6db57172";
 const randomSong: any = require("@chatandshare/random-song");
 const music: any = require("musicmatch")({
   apikey: APIKey,
 });
+// -----------------------------------------------------
+
+// ---------- Spotify API ------------------------------
+var spotifyApi = new SpotifyWebApi({
+  clientId: "d14b9d690e8d4fcb907908dbb94e4382",
+  clientSecret: "8ac0c6de263b46f9b3e7e406bfdb818c",
+});
+
+// Retrieve an access token.
+spotifyApi.clientCredentialsGrant().then(
+  function (data: any) {
+    console.log("The access token expires in " + data.body["expires_in"]);
+    console.log("The access token is " + data.body["access_token"]);
+
+    // Save the access token so that it's used in future calls
+    spotifyApi.setAccessToken(data.body["access_token"]);
+  },
+  function (err: Error) {
+    console.log("Something went wrong when retrieving an access token", err);
+  }
+);
+
+// -----------------------------------------------------
 
 require("dotenv").config();
 
@@ -19,11 +45,9 @@ const random: any = new randomSong(process.env.API_KEY);
 const PORT: string | number = process.env.PORT || 3001;
 
 let ARTIST_NAME: string = "";
-let ALBUMS: any = [];
 let ALBUM_NAMES: any = [];
 
 let INDEX: number = 0;
-let ALBUMS_LENGTH: number;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -96,124 +120,167 @@ app.get("/", (req: Request, res: Response) => {
 
 // Random band route
 app.get("/random", async (req: Request, res: Response) => {
-  console.log("RANDOM ROUTE================");
-  INDEX = 0;
-  let albums: Album[] = [];
-  try {
-    const song = await random.song();
-    console.log(song);
+  // console.log("RANDOM ROUTE================");
+  // INDEX = 0;
+  // let albums: Album[] = [];
+  // try {
+  //   const song = await random.song();
+  //   console.log(song);
 
-    // Second, extract the artists ID from the song
-    const artistID = song.artist_id;
-    ARTIST_NAME = song.artist_name;
+  //   // Second, extract the artists ID from the song
+  //   const artistID = song.artist_id;
+  //   ARTIST_NAME = song.artist_name;
 
-    // Third, get the artist's albums
-    music
-      .artistAlbums({
-        artist_id: artistID,
-        s_release_date: "desc",
-        g_album_name: 1,
-      })
-      .then(async function (data: any) {
-        let tempAlbums = await data.message.body.album_list;
+  //   // Third, get the artist's albums
+  //   music
+  //     .artistAlbums({
+  //       artist_id: artistID,
+  //       s_release_date: "desc",
+  //       g_album_name: 1,
+  //     })
+  //     .then(async function (data: any) {
+  //       let tempAlbums = await data.message.body.album_list;
 
-        console.log("----LIST OF ALBUMS BEFORE I CHANGE ANYTHING----");
-        console.log(tempAlbums);
+  //       console.log(
+  //         "-----Here are the artists albums right when we get them from the API-----"
+  //       );
+  //       console.log(tempAlbums);
 
-        tempAlbums.map((album: any) => {
-          const album_id = album.album.album_id;
-          const album_mbid = album.album.album_mbid;
-          const album_name = album.album.album_name;
-          const album_rating = album.album.album_rating;
-          const album_track_count = album.album.album_track_count;
-          const album_release_date = album.album.album_release_date;
-          const album_release_type = album.album.album_release_type;
-          const artist_id = album.album.artist_id;
-          let newAlbum = new Album(
-            album_id,
-            album_mbid,
-            album_name,
-            album_rating,
-            album_track_count,
-            album_release_date,
-            album_release_type,
-            artist_id
-          );
-          albums.push(newAlbum);
-          ALBUMS.push(newAlbum);
-        });
+  //       tempAlbums.map((album: any) => {
+  //         const album_id = album.album.album_id;
+  //         const album_mbid = album.album.album_mbid;
+  //         const album_name = album.album.album_name;
+  //         const album_rating = album.album.album_rating;
+  //         const album_track_count = album.album.album_track_count;
+  //         const album_release_date = album.album.album_release_date;
+  //         const album_release_type = album.album.album_release_type;
+  //         const artist_id = album.album.artist_id;
+  //         let newAlbum = new Album(
+  //           album_id,
+  //           album_mbid,
+  //           album_name,
+  //           album_rating,
+  //           album_track_count,
+  //           album_release_date,
+  //           album_release_type,
+  //           artist_id
+  //         );
+  //         albums.push(newAlbum);
+  //       });
 
-        // ---- THE NEW ALBUMS ---------------------------------------
-        albums.map((album: any) => {
-          ALBUM_NAMES.push(album.album_name);
-        });
-        // ------------------------------------------------------------
+  //       albums.map((album: any) => {
+  //         ALBUM_NAMES.push(album.album_name);
+  //       });
 
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // This is the code that I added from below
+  //       console.log(
+  //         "-----Here are the artists albums NAMES right after mapping through the albums-----"
+  //       );
+  //       console.log(ALBUM_NAMES);
 
-        // Fourth, get the actual artist, create an artist object and then send it
-        music
-          .artist({ artist_id: artistID })
-          .then(function (data: any) {
-            const artist = data.message.body.artist;
-            const artist_id = artist.artist_id;
-            const artist_name = artist.artist_name;
-            const artist_country = artist.artist_country;
-            const artist_twitter_url = artist.artist_twitter_url;
-            //const artist_albums = albums;
+  //       // Fourth, get the actual artist, create an artist object and then send it
+  //       music
+  //         .artist({ artist_id: artistID })
+  //         .then(function (data: any) {
+  //           const artist = data.message.body.artist;
+  //           const artist_id = artist.artist_id;
+  //           const artist_name = artist.artist_name;
+  //           const artist_country = artist.artist_country;
+  //           const artist_twitter_url = artist.artist_twitter_url;
+  //           //const artist_albums = albums;
 
-            let newArtist = new Artist(
-              artist_id,
-              artist_name,
-              artist_country,
-              artist_twitter_url,
-              []
-            );
-            (async function wait() {
-              if (albums.length == 0) {
-                await delay(5000);
-                console.log("Waited 5s");
-                console.log("HERES THE ALBUMS -BEFORE- THE MAP");
-                console.log(albums); /// ------------------------------------ line 181, have the albums
+  //           let newArtist = new Artist(
+  //             artist_id,
+  //             artist_name,
+  //             artist_country,
+  //             artist_twitter_url,
+  //             []
+  //           );
 
-                console.log("12345 HERES THE MAP 54321");
-                albums.map((album) => {
-                  console.log("--------ALBUMSSSSSSSASSSSS--------");
-                  console.log(album);
-                  console.log("--------------------------");
-                  newArtist.artist_albums.push(album);
-                });
-                console.log("----- FINAL ARTIST READY -----");
-                console.log(newArtist);
+  //           console.log(
+  //             "-----Here is the new artist right after creating an Artist object-----"
+  //           );
+  //           console.log(newArtist);
 
-                console.log("----- HERES THE ALBUM NAMES -----");
-                console.log(ALBUM_NAMES);
+  //           (async function wait() {
+  //             if (albums.length == 0) {
+  //               await delay(5000);
+  //               console.log("Waited 5s");
 
-                res.send(newArtist);
-              }
-            })();
-          })
-          .catch(function (err: any) {
-            console.log(
-              "// Got kicked out in this function - Trying to get the artist by ID"
-            );
-            console.log("ERROR: " + err);
-          });
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      })
-      .catch(function (err: any) {
-        console.log(
-          "// Got kicked out in this function - Trying to get the artists albums"
-        );
-        console.log(err);
-      });
-  } catch (error) {
-    console.log(
-      "// Got kicked out in this function - Right after the try at the beginning"
+  //               albums.map((album) => {
+  //                 newArtist.artist_albums.push(album);
+  //               });
+
+  //               res.send(newArtist);
+  //             }
+  //           })();
+  //         })
+  //         .catch(function (err: any) {
+  //           console.log(
+  //             "// Got kicked out in this function - Trying to get the artist by ID"
+  //           );
+  //           console.log("ERROR: " + err);
+  //         });
+  //     })
+  //     .catch(function (err: any) {
+  //       console.log(
+  //         "// Got kicked out in this function - Trying to get the artists albums"
+  //       );
+  //       console.log(err);
+  //     });
+  // } catch (error) {
+  //   console.log(
+  //     "// Got kicked out in this function - Right after the try at the beginning"
+  //   );
+  //   console.log(error);
+  // }
+
+  // -=-=-=-=-=-=
+  let rand = (function getRandomSearch() {
+    // A list of all characters that can be chosen.
+    const characters = "abcdefghijklmnopqrstuvwxyz";
+
+    // Gets a random character from the characters string.
+    const randomCharacter = characters.charAt(
+      Math.floor(Math.random() * characters.length)
     );
-    console.log(error);
-  }
+    let randomSearch = "";
+
+    // Places the wildcard character at the beginning, or both beginning and end, randomly.
+    switch (Math.round(Math.random())) {
+      case 0:
+        randomSearch = randomCharacter + "%";
+        break;
+      case 1:
+        randomSearch = "%" + randomCharacter + "%";
+        break;
+    }
+
+    return randomSearch;
+  })();
+  const randomOffset = Math.floor(Math.random() * 10000);
+
+  // Search artists whose name contains 'Love'
+  spotifyApi.searchArtists(rand).then(
+    function (data: any) {
+      console.log("Search artists by random query", data.body);
+
+      console.log("// ---------- Artist data: ----------");
+      console.log(data.body.artists.items);
+
+      // Choose one of the artist results randomly
+      const randomArtist =
+        data.body.artists.items[
+          Math.floor(Math.random() * data.body.artists.items.length)
+        ];
+
+      console.log("---------- HERE IS THE RANDOM ARTIST ----------");
+      console.log(randomArtist);
+      res.send(randomArtist);
+    },
+    function (err: Error) {
+      console.error(err);
+    }
+  );
 });
 
 // Get the artists profile pic
@@ -234,7 +301,6 @@ app.get("/photo", async (req: Request, res: Response) => {
   const browser: Browser = await puppeteer.launch();
   const page: Page = await browser.newPage();
 
-  //await page.goto(baseURL + artistName, { waitUntil: "networkidle0" });
   await page.goto(baseURL + artistName, { waitUntil: "domcontentloaded" });
 
   const [photo]: any = await page.$x(
