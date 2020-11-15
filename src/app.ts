@@ -16,8 +16,8 @@ const music: any = require("musicmatch")({
 
 // ---------- Spotify API ------------------------------
 var spotifyApi = new SpotifyWebApi({
-  clientId: "d14b9d690e8d4fcb907908dbb94e4382",
-  clientSecret: "8ac0c6de263b46f9b3e7e406bfdb818c",
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
 });
 
 // Retrieve an access token.
