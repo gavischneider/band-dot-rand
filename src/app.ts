@@ -4,10 +4,12 @@ import { Browser, Page } from "puppeteer";
 const puppeteer = require("puppeteer");
 const SpotifyWebApi = require("spotify-web-api-node");
 
+require("dotenv").config();
+
 // ---------- Spotify API ------------------------------
 var spotifyApi = new SpotifyWebApi({
-  clientId: "d14b9d690e8d4fcb907908dbb94e4382",
-  clientSecret: "8ac0c6de263b46f9b3e7e406bfdb818c",
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
 });
 
 // Retrieve an access token.
@@ -23,10 +25,7 @@ spotifyApi.clientCredentialsGrant().then(
     console.log("Something went wrong when retrieving an access token", err);
   }
 );
-
 // -----------------------------------------------------
-
-require("dotenv").config();
 
 const app: Application = express();
 
