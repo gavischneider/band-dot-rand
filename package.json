@@ -19,13 +19,10 @@
   },
   "homepage": "https://github.com/gavischneider/band-dot-rand#readme",
   "dependencies": {
-    "@chatandshare/random-song": "^1.0.0",
     "@types/puppeteer": "^5.4.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "musicmatch": "^0.3.2",
-    "node-fetch": "^2.6.1",
     "puppeteer": "^5.4.1",
     "spotify-web-api-node": "^5.0.0"
   },

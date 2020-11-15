@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ArtistsAlbums } from "./ArtistsAlbums";
-import { Album } from "./Album";
 
 export const RandomBand = () => {
   const [initialState, setInitialState] = useState<ArtistData[]>([]);

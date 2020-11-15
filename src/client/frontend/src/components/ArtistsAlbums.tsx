@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Album } from "./Album";
-import axios from "axios";
 
 export const ArtistsAlbums = (props: any) => {
   console.log("PROPS");
