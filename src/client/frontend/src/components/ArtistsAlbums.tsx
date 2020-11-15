@@ -6,10 +6,12 @@ export const ArtistsAlbums = (props: any) => {
   console.log(props);
   const albums = props.albums;
   return (
-    <div>
-      {albums.map((album: any) => {
-        return <Album key={album.id} album={album} />;
-      })}
+    <div className="container mx-auto">
+      <div className="grid grid-cols-3 gap-4">
+        {albums.map((album: any) => {
+          return <Album key={album.id} album={album} />;
+        })}
+      </div>
     </div>
   );
 };
