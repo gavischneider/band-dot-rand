@@ -7,7 +7,7 @@ export const ArtistsAlbums = (props: any) => {
   const albums = props.albums;
   return (
     <div className="container mx-auto">
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-5 gap-4">
         {albums.map((album: any) => {
           return <Album key={album.id} album={album} />;
         })}

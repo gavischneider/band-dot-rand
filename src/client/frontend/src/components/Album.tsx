@@ -3,7 +3,7 @@ import React from "react";
 export const Album = (props: any) => {
   return (
     <div className="max-w-xs rounded overflow-hidden shadow-lg">
-      <div className="width-full">
+      <div className="object-fill">
         <a href={props.album.external_urls.spotify} target="_blank">
           <img alt={"Album Cover"} src={props.album.images[1].url} />
         </a>
