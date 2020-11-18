@@ -8,10 +8,10 @@ export const ArtistInfo = (props: any) => {
 
   return (
     <div className="lg:flex justify-center py-12">
-      <div className="text-left lg:mt-4 lg:mt-0 lg:ml-10 flex content-center">
+      <div className="text-left lg:mt-4 lg:mt-0 lg:ml-10 flex content-center px-5">
         <ArtistPhoto photo={props.info.images[1].url} />
       </div>
-      <div className="text-left lg:mt-4 lg:mt-0 lg:ml-10 flex content-center">
+      <div className="text-left lg:mt-4 lg:mt-0 lg:ml-10 flex content-center px-2">
         <div className="m-auto">
           <h1 className="text-4xl mb-5">{props.info.name}</h1>
           {props.info.external_urls.spotify ? (

@@ -13,7 +13,7 @@ export const Album = (props: any) => {
           {props.album.name}
         </div>
         <div className="font-bold text-black-500 text-md mb-2">
-          {props.album.release_date}
+          {props.album.release_date.replaceAll("-", "/")}
         </div>
       </div>
     </div>
