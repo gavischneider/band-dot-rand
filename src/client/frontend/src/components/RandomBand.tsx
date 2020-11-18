@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ArtistInfo } from "./ArtistInfo";
 import { ArtistsAlbums } from "./ArtistsAlbums";
+import { Navbar } from "./Navbar";
 
 export const RandomBand = () => {
   const [initialState, setInitialState] = useState<ArtistData[]>([]);
@@ -42,6 +43,7 @@ export const RandomBand = () => {
 
   return (
     <div>
+      <Navbar />
       <ArtistInfo info={initialState[0]} />
       <ArtistsAlbums albums={initialState[0].albums} />
     </div>
