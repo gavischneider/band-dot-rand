@@ -2,7 +2,7 @@ import React from "react";
 
 export const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-purple-500 p-6 shadow-lg inset-x-0 top-0 object-top sticky">
+    <nav className="flex items-center justify-between flex-wrap bg-purple-500 p-6 shadow-lg inset-x-0 top-0 object-top sticky z-10">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <svg
           className="fill-current h-8 w-8 mr-2"

@@ -17,7 +17,7 @@ export const ArtistInfo = (props: any) => {
           {props.info.external_urls.spotify ? (
             <a href={props.info.external_urls.spotify} target="_blank">
               <img
-                className="w-40 shadow-lg"
+                className="w-40 shadow-lg transform transition duration-300 hover:scale-110"
                 alt="spotify button"
                 src={imagePath}
               />

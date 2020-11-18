@@ -13,18 +13,23 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 // Retrieve an access token.
-spotifyApi.clientCredentialsGrant().then(
-  function (data: any) {
-    console.log("The access token expires in " + data.body["expires_in"]);
-    console.log("The access token is " + data.body["access_token"]);
+function getToken() {
+  spotifyApi.clientCredentialsGrant().then(
+    function (data: any) {
+      console.log("The access token expires in " + data.body["expires_in"]);
+      console.log("The access token is " + data.body["access_token"]);
 
-    // Save the access token so that it's used in future calls
-    spotifyApi.setAccessToken(data.body["access_token"]);
-  },
-  function (err: Error) {
-    console.log("Something went wrong when retrieving an access token", err);
-  }
-);
+      // Save the access token so that it's used in future calls
+      spotifyApi.setAccessToken(data.body["access_token"]);
+    },
+    function (err: Error) {
+      console.log("Something went wrong when retrieving an access token", err);
+    }
+  );
+}
+getToken();
+
+setInterval(getToken, 60 * 60 * 1000);
 // ---------------------------------------------------------------
 
 // Allows frontend to call backend API

@@ -5,9 +5,10 @@ import express, {
   NextFunction,
   Router,
 } from "express";
-import { Browser, Page } from "puppeteer";
 
 const puppeteer = require("puppeteer");
+
+import { Browser, Page } from "puppeteer";
 
 require("dotenv").config();
 
