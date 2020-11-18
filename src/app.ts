@@ -6,7 +6,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 
 require("dotenv").config();
 
-// ---------- Spotify API ------------------------------
+// ---------- Spotify API ----------------------------------------
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
@@ -25,7 +25,7 @@ spotifyApi.clientCredentialsGrant().then(
     console.log("Something went wrong when retrieving an access token", err);
   }
 );
-// -----------------------------------------------------
+// ---------------------------------------------------------------
 
 const app: Application = express();
 
@@ -49,7 +49,7 @@ app.get("/random", async (req: Request, res: Response) => {
   // Get a random query prefix
   let rand = (function getRandomSearch() {
     // A list of all characters that can be chosen.
-    const characters = "abcdefghijklmnopqrstuvwxyz";
+    const characters = "abcdefghijklmnopqrstuvwxyz123456789";
 
     // Gets a random character from the characters string.
     const randomCharacter = characters.charAt(
@@ -87,7 +87,6 @@ app.get("/random", async (req: Request, res: Response) => {
 
       console.log("---------- HERE IS THE RANDOM ARTIST ----------");
       console.log(randomArtist);
-      //res.send(randomArtist);
 
       // Get the artists albums
       spotifyApi.getArtistAlbums(randomArtist.id).then(
