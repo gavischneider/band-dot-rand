@@ -7,13 +7,13 @@ export const ArtistInfo = (props: any) => {
   console.log(props);
 
   return (
-    <div className="flex justify-center py-12">
-      <div>
+    <div className="lg:flex justify-center py-12">
+      <div className="text-left lg:mt-4 lg:mt-0 lg:ml-10 flex content-center">
         <ArtistPhoto photo={props.info.images[1].url} />
       </div>
-      <div className="text-left mt-4 mt-0 ml-6 flex content-center">
+      <div className="text-left lg:mt-4 lg:mt-0 lg:ml-10 flex content-center">
         <div className="m-auto">
-          <h1 className="text-3xl">{props.info.name}</h1>
+          <h1 className="text-4xl mb-5">{props.info.name}</h1>
           {props.info.external_urls.spotify ? (
             <a href={props.info.external_urls.spotify} target="_blank">
               <img
