@@ -1,5 +1,6 @@
 import React from "react";
 import { ArtistPhoto } from "./ArtistPhoto";
+import imagePath from "../public/spotifybutton.png";
 
 export const ArtistInfo = (props: any) => {
   console.log("PROPS");
@@ -13,11 +14,10 @@ export const ArtistInfo = (props: any) => {
       <div className="text-left mt-4 mt-0 ml-6 flex content-center">
         <div className="m-auto">
           <h3 className="text-xl">{props.info.name}</h3>
-          <h3>Artist ID: {props.info.id}</h3>
           {props.info.external_urls.spotify ? (
-            <h3>
-              <a href={props.info.external_urls.spotify}>Artist Spotify URL</a>
-            </h3>
+            <a href={props.info.external_urls.spotify}>
+              <img className="w-40" alt="spotify button" src={imagePath} />
+            </a>
           ) : (
             <h3>""</h3>
           )}
