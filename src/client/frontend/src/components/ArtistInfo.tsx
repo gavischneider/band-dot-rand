@@ -1,6 +1,6 @@
 import React from "react";
 import { ArtistPhoto } from "./ArtistPhoto";
-import imagePath from "../public/spotifybutton2.png";
+import imagePath from "../assets/spotifybutton2.png";
 
 export const ArtistInfo = (props: any) => {
   console.log("PROPS");
