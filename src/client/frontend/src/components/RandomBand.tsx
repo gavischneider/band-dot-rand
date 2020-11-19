@@ -3,6 +3,7 @@ import axios from "axios";
 import { ArtistInfo } from "./ArtistInfo";
 import { ArtistsAlbums } from "./ArtistsAlbums";
 import { Navbar } from "./Navbar";
+import { Footer } from "./Footer";
 
 export const RandomBand = () => {
   const [initialState, setInitialState] = useState<ArtistData[]>([]);
@@ -46,6 +47,7 @@ export const RandomBand = () => {
       <Navbar />
       <ArtistInfo info={initialState[0]} />
       <ArtistsAlbums albums={initialState[0].albums} />
+      <Footer />
     </div>
   );
 };
