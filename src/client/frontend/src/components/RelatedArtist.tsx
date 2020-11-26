@@ -7,7 +7,7 @@ export const RelatedArtist = (props: any) => {
     <div className="">
       <div className="">
         <img
-          className="rounded-full"
+          className="rounded-full h-24 w-24"
           src={props.images[0].url}
           alt={"artist"}
         />
