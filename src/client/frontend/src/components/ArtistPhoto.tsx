@@ -6,7 +6,7 @@ export const ArtistPhoto = (props: any) => {
 
   return (
     <div className="mx-auto">
-      <img className="rounded-full" src={props.photo} />
+      <img className="rounded-full" src={props.photo} alt={"artist"} />
     </div>
   );
 };

@@ -17,6 +17,7 @@ export const Footer = () => {
         <a
           href="https://gavischneider.github.io/Personal-Site/"
           target="_blank"
+          rel="noreferrer"
           className="pl-1"
         >
           Gavi Schneider
@@ -25,6 +26,7 @@ export const Footer = () => {
           <a
             href="https://www.linkedin.com/in/gavi-schneider-27a87837/"
             target="_blank"
+            rel="noreferrer"
             className="linkedin social pl-2"
           >
             <FontAwesomeIcon icon={faLinkedin} size="2x" />
@@ -32,6 +34,7 @@ export const Footer = () => {
           <a
             href="https://twitter.com/gschnei"
             target="_blank"
+            rel="noreferrer"
             className="twitter social pl-2"
           >
             <FontAwesomeIcon icon={faTwitter} size="2x" />
@@ -39,6 +42,7 @@ export const Footer = () => {
           <a
             href="https://github.com/gavischneider"
             target="_blank"
+            rel="noreferrer"
             className="github social pl-2"
           >
             <FontAwesomeIcon icon={faGithub} size="2x" />
@@ -46,6 +50,7 @@ export const Footer = () => {
           <a
             href="https://dev.to/gschnei"
             target="_blank"
+            rel="noreferrer"
             className="dev social pl-2"
           >
             <FontAwesomeIcon icon={faDev} size="2x" />
