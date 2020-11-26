@@ -88,6 +88,20 @@ router.get("/", async (req: Request, res: Response) => {
           console.log("Artist albums", data.body);
           const albums: any = data.body.items;
 
+          //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+          // Get artists related to an artist
+          spotifyApi.getArtistRelatedArtists(randomArtist.id).then(
+            function (data: any) {
+              console.log("----------RELATED ARTISTS RIGHT HERE----------");
+              console.log(data.body);
+            },
+            function (err: Error) {
+              console.log(err);
+            }
+          );
+
+          //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
           // Combine the random artist with its albums and send
           let finalArtist = {
             ...randomArtist,
