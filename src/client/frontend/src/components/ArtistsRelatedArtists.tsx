@@ -14,6 +14,7 @@ export const ArtistsRelatedArtists = (props: any) => {
               key={artist.id}
               name={artist.name}
               images={artist.images}
+              url={artist.external_urls.spotify}
             />
           );
         })}

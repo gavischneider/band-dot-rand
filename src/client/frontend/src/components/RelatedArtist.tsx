@@ -6,11 +6,13 @@ export const RelatedArtist = (props: any) => {
   return (
     <div className="">
       <div className="">
-        <img
-          className="rounded-full h-24 w-24"
-          src={props.images[0].url}
-          alt={"artist"}
-        />
+        <a href={props.url} target="_blank" rel="noreferrer">
+          <img
+            className="rounded-full h-24 w-24"
+            src={props.images[0].url}
+            alt={"artist"}
+          />
+        </a>
         <div className="font-bold text-purple-500 text-lg mb-2">
           {props.name}
         </div>
