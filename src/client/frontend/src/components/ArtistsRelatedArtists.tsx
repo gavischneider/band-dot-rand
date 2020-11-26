@@ -1,15 +1,23 @@
 import React from "react";
-import { RelatedArtist } from "./RelatedArtist"
+import { RelatedArtist } from "./RelatedArtist";
 
 export const ArtistsRelatedArtists = (props: any) => {
-  console.log("PROPS");
+  console.log("ARTISTS RELATED ARTISTS PROPS");
   console.log(props);
-  const artists = props.artists;
+  const relatedArtists = props.relatedArtists;
   return (
     <div className="container mx-auto">
-        artists.map((artist) => {
-            
-        })
+      <div className="object-center grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {relatedArtists.map((artist: any) => {
+          return (
+            <RelatedArtist
+              key={artist.id}
+              name={artist.name}
+              images={artist.images}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

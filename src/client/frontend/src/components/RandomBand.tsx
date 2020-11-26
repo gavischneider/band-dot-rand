@@ -19,6 +19,7 @@ export const RandomBand = () => {
     external_urls: any;
     images: any;
     albums: [];
+    relatedArtists: [];
   }
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export const RandomBand = () => {
       <Navbar />
       <ArtistInfo info={initialState[0]} />
       <ArtistsAlbums albums={initialState[0].albums} />
+      <ArtistsRelatedArtists relatedArtists={initialState[0].relatedArtists} />
       <Footer />
     </div>
   );

@@ -94,7 +94,7 @@ router.get("/", async (req: Request, res: Response) => {
             function (data: any) {
               console.log("----------RELATED ARTISTS RIGHT HERE----------");
               console.log(data.body);
-              const relatedArtists: any = data.body;
+              const relatedArtists: any = data.body.artists;
 
               // Combine the random artist with its albums and related artists, then send
               let finalArtist = {
