@@ -4,6 +4,7 @@ import { ArtistInfo } from "./ArtistInfo";
 import { ArtistsAlbums } from "./ArtistsAlbums";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
+import { ArtistsRelatedArtists } from "./ArtistsRelatedArtists";
 
 export const RandomBand = () => {
   const [initialState, setInitialState] = useState<ArtistData[]>([]);
