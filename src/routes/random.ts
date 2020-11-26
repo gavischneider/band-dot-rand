@@ -94,6 +94,17 @@ router.get("/", async (req: Request, res: Response) => {
             function (data: any) {
               console.log("----------RELATED ARTISTS RIGHT HERE----------");
               console.log(data.body);
+              const relatedArtists: any = data.body;
+
+              // Combine the random artist with its albums and related artists, then send
+              let finalArtist = {
+                ...randomArtist,
+                albums,
+                relatedArtists,
+              };
+              console.log("---------- HERE IS THE *FINAL* ARTIST ----------");
+              console.log(finalArtist);
+              res.send(finalArtist);
             },
             function (err: Error) {
               console.log(err);
@@ -101,15 +112,6 @@ router.get("/", async (req: Request, res: Response) => {
           );
 
           //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-          // Combine the random artist with its albums and send
-          let finalArtist = {
-            ...randomArtist,
-            albums,
-          };
-          console.log("---------- HERE IS THE *FINAL* ARTIST ----------");
-          console.log(finalArtist);
-          res.send(finalArtist);
         },
         function (err: Error) {
           console.error(err);
