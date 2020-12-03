@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import { RelatedArtist } from "./RelatedArtist";
+import Carousel from "react-elastic-carousel";
 
 export const ArtistsRelatedArtists = (props: any) => {
   console.log("ARTISTS RELATED ARTISTS PROPS");
