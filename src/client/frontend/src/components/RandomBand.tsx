@@ -45,7 +45,7 @@ export const RandomBand = () => {
   if (!initialState[0]) return <span>loading...</span>;
 
   return (
-    <div>
+    <div className="bg-gray-900">
       <Navbar />
       <ArtistInfo info={initialState[0]} />
       <ArtistsAlbums albums={initialState[0].albums} />

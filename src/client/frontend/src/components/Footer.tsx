@@ -13,7 +13,7 @@ export const Footer = () => {
 
   return (
     <div className="pt-20">
-      <div className="flex items-center justify-center flex-wrap bg-purple-500 p-3 shadow-lg inset-x-0 top-0 object-top sticky z-10">
+      <div className="flex items-center justify-center flex-wrap bg-purple-600 p-3 shadow-lg inset-x-0 top-0 object-top sticky z-10">
         {`© ${year}`}
         <a
           href="https://gavischneider.github.io/Personal-Site/"
