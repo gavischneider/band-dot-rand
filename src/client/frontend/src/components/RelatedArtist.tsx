@@ -4,7 +4,7 @@ export const RelatedArtist = (props: any) => {
   console.log("------RELATED ARTISTS PROPS------");
   console.log(props);
   return (
-    <div className="max-w-xs rounded shadow-lg p-4">
+    <div className="max-w-xs rounded shadow-lg p-4 transform transition duration-300 hover:scale-110">
       <div className="">
         <div className="">
           <a
