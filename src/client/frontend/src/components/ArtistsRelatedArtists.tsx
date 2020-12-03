@@ -8,8 +8,9 @@ export const ArtistsRelatedArtists = (props: any) => {
   const relatedArtists = props.relatedArtists;
 
   const breakpoints = [
-    { width: 1, itemsToShow: 2 },
-    { width: 500, itemsToShow: 3 },
+    { width: 1, itemsToShow: 1 },
+    { width: 500, itemsToShow: 2 },
+    { width: 600, itemsToShow: 3 },
     { width: 750, itemsToShow: 4 },
     { width: 1100, itemsToShow: 5 },
   ];

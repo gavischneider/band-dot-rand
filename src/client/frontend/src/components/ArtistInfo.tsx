@@ -7,7 +7,7 @@ export const ArtistInfo = (props: any) => {
   console.log(props);
 
   return (
-    <div className="lg:flex justify-center py-12 container mx-auto rounded mt-5 mb-8 shadow-lg bg-gray-800">
+    <div className="lg:flex justify-center py-12 px-12 container mx-auto rounded mt-5 mb-8 shadow-lg bg-gray-800">
       <div className="text-left lg:mt-4 lg:mt-0 lg:ml-10 flex content-center px-5">
         <ArtistPhoto photo={props.info.images[1].url} />
       </div>
