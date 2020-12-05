@@ -30,7 +30,7 @@ export const RandomBand = () => {
         })
         .catch((error) => console.log(error));
     })();
-  }, []);
+  }, [proxyUrl]);
 
   console.log("initialState: ");
   console.log(initialState);

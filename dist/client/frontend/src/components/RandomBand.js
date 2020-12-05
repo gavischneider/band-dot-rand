@@ -5,7 +5,6 @@ import { ArtistsAlbums } from "./ArtistsAlbums";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { ArtistsRelatedArtists } from "./ArtistsRelatedArtists";
-//
 
 var __awaiter =
   (this && this.__awaiter) ||
@@ -60,7 +59,7 @@ export const RandomBand = () => {
           .catch((error) => console.log(error));
       });
     })();
-  }, []);
+  }, [proxyUrl]);
   console.log("initialState: ");
   console.log(initialState);
   if (!initialState[0]) return React.createElement("span", null, "loading...");
