@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("./App.css");
-const react_1 = __importDefault(require("react"));
-const RandomBand_1 = require("./components/RandomBand");
+import "./App.css";
+import React from "react";
+import { RandomBand } from "./components/RandomBand";
 function App() {
-    return (react_1.default.createElement("div", { className: "App" },
-        react_1.default.createElement(RandomBand_1.RandomBand, null)));
+    return (React.createElement("div", { className: "App" },
+        React.createElement(RandomBand, null)));
 }
-exports.default = App;
+export default App;
