@@ -79,21 +79,28 @@ router.get("/", async (req: Request, res: Response) => {
           Math.floor(Math.random() * data.body.artists.items.length)
         ];
 
-      console.log("---------- HERE IS THE RANDOM ARTIST ----------");
-      console.log(randomArtist);
+      //console.log("---------- HERE IS THE RANDOM ARTIST ----------");
+      //console.log(randomArtist);
 
       // Get the artists albums
       spotifyApi.getArtistAlbums(randomArtist.id).then(
         function (data: any) {
           console.log("Artist albums", data.body);
-          const albums: any = data.body.items;
+          let albums: any = data.body.items;
 
-          //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+          // Sort the albums by date
+          albums.sort(function compare(albumA: any, albumB: any) {
+            const dateA: any = new Date(albumA.release_date);
+            const dateB: any = new Date(albumB.release_date);
+            return dateA - dateB;
+          });
+          albums.reverse();
+
           // Get artists related to an artist
           spotifyApi.getArtistRelatedArtists(randomArtist.id).then(
             function (data: any) {
-              console.log("----------RELATED ARTISTS RIGHT HERE----------");
-              console.log(data.body);
+              //console.log("----------RELATED ARTISTS RIGHT HERE----------");
+              //console.log(data.body);
               const relatedArtists: any = data.body.artists;
 
               // Combine the random artist with its albums and related artists, then send
@@ -102,16 +109,14 @@ router.get("/", async (req: Request, res: Response) => {
                 albums,
                 relatedArtists,
               };
-              console.log("---------- HERE IS THE *FINAL* ARTIST ----------");
-              console.log(finalArtist);
+              //console.log("---------- HERE IS THE *FINAL* ARTIST ----------");
+              //console.log(finalArtist);
               res.send(finalArtist);
             },
             function (err: Error) {
               console.log(err);
             }
           );
-
-          //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         },
         function (err: Error) {
           console.error(err);
