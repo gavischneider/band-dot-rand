@@ -6,9 +6,7 @@ import express, {
   Router,
 } from "express";
 
-//require("dotenv").config();
-import dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 const app: Application = express();
 

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Discover a new band. Or six.",
   "main": "index.js",
-  "type": "module",
   "engines": {
     "node": "12.x"
   },
