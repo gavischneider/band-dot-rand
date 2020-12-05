@@ -10,7 +10,7 @@ require("dotenv").config();
 
 const app: Application = express();
 
-const PORT: string | number = process.env.PORT || 3001;
+const PORT: string | number = process.env.REACT_APP_PORT || 3001;
 
 const path = require("path");
 

@@ -8,7 +8,7 @@
     "dev": "nodemon src/app.ts",
     "build": "tsc -p .",
     "postinstall": "tsc",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix src/client/frontend && npm run build --prefix src/client/frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix src/client/frontend && npm run build --prefix dist/client/frontend"
   },
   "repository": {
     "type": "git",
