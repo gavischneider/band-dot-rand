@@ -31,7 +31,9 @@ if (process.env.NODE_ENV === "production") {
 
   app.get("*", (req: Request, res: Response) => {
     // Send request to the index page
-    res.sendFile(path.resolve(__dirname, "client", "frontend", "index.html"));
+    res.sendFile(
+      path.resolve(__dirname, "client", "frontend", "public", "index.html")
+    );
   });
 }
 
