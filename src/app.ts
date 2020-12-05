@@ -27,7 +27,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
   // Set static folder
-  app.use(express.static("src/client/frontend/"));
+  app.use(express.static("src/client/frontend/public/"));
 
   app.get("*", (req: Request, res: Response) => {
     // Send request to the index page
