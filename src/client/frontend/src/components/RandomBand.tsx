@@ -14,7 +14,7 @@ export const RandomBand = () => {
   const PORT: string | number = process.env.PORT || 3001;
 
   // Backend API
-  const proxyUrl = `http://band-dot-rand.herokuapp.com:${PORT}`;
+  const proxyUrl = "https://band-dot-rand.herokuapp.com";
   const api = "/random";
 
   console.log(`PROXY URL IS: ${proxyUrl}`);
