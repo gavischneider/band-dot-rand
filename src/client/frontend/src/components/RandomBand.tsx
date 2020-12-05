@@ -9,9 +9,10 @@ import { Artist } from "../types/interfaces";
 
 export const RandomBand = () => {
   const [initialState, setInitialState] = useState<Artist[]>([]);
+  const PORT: string | number = process.env.PORT || 3001;
 
   // Backend API
-  const proxyUrl = "http://localhost:3001";
+  const proxyUrl = `http://localhost:${PORT}`;
   const api = "/random";
 
   useEffect(() => {
