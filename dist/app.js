@@ -18,10 +18,10 @@ app.use((req, res, next) => {
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
     // Set static folder
-    app.use(express_1.default.static("client/frontend/build"));
+    app.use(express_1.default.static("client/frontend/"));
     app.get("*", (req, res) => {
         // Send request to the index page
-        res.sendFile(path.resolve(__dirname, "client", "frontend", "build", "index.html"));
+        res.sendFile(path.resolve(__dirname, "client", "frontend", "index.html"));
     });
 }
 // Home route
