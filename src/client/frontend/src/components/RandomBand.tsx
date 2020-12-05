@@ -5,27 +5,19 @@ import { ArtistsAlbums } from "./ArtistsAlbums";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { ArtistsRelatedArtists } from "./ArtistsRelatedArtists";
+import { Artist } from "../types/interfaces";
 
 export const RandomBand = () => {
-  const [initialState, setInitialState] = useState<ArtistData[]>([]);
+  const [initialState, setInitialState] = useState<Artist[]>([]);
 
   // Backend API
   const proxyUrl = "http://localhost:3001";
   const api = "/random";
 
-  interface ArtistData {
-    id: number;
-    name: string;
-    external_urls: any;
-    images: any;
-    albums: [];
-    relatedArtists: [];
-  }
-
   useEffect(() => {
     (async function callAPI() {
       axios
-        .get<ArtistData>(proxyUrl + api)
+        .get<Artist>(proxyUrl + api)
         .then((response) => {
           setInitialState([
             {

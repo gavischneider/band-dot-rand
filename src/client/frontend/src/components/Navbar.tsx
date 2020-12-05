@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import imagePath from "../assets/logo2.png";
 
 export const Navbar = () => {

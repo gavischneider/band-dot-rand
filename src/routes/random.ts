@@ -2,7 +2,7 @@ const express = require("express");
 
 import { Request, Response, NextFunction } from "express";
 
-let router = express.Router();
+const router = express.Router();
 
 const SpotifyWebApi = require("spotify-web-api-node");
 
@@ -37,6 +37,13 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
+
+interface Album {
+  id: string;
+  name: string;
+  release_date: number;
+  href: string;
+}
 
 // Random band route
 router.get("/", async (req: Request, res: Response) => {
@@ -86,10 +93,10 @@ router.get("/", async (req: Request, res: Response) => {
       spotifyApi.getArtistAlbums(randomArtist.id).then(
         function (data: any) {
           console.log("Artist albums", data.body);
-          let albums: any = data.body.items;
+          let albums: Album[] = data.body.items;
 
           // Sort the albums by date
-          albums.sort(function compare(albumA: any, albumB: any) {
+          albums.sort(function compare(albumA: Album, albumB: Album) {
             const dateA: any = new Date(albumA.release_date);
             const dateB: any = new Date(albumB.release_date);
             return dateA - dateB;

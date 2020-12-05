@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import { RelatedArtist } from "./RelatedArtist";
 import Carousel from "react-elastic-carousel";
+import { Artist } from "../types/interfaces";
 
 export const ArtistsRelatedArtists = (props: any) => {
   console.log("ARTISTS RELATED ARTISTS PROPS");
   console.log(props);
-  const relatedArtists = props.relatedArtists;
+  const relatedArtists: Artist[] = props.relatedArtists;
 
   const breakpoints = [
     { width: 1, itemsToShow: 1 },

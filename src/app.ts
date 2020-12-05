@@ -6,10 +6,6 @@ import express, {
   Router,
 } from "express";
 
-const puppeteer = require("puppeteer");
-
-import { Browser, Page } from "puppeteer";
-
 require("dotenv").config();
 
 const app: Application = express();
