@@ -30,6 +30,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/frontend/build"));
 
   app.get("*", (req: Request, res: Response) => {
+    // Send request to the index page
     res.sendFile(
       path.resolve(__dirname, "client", "frontend", "build", "index.html")
     );
