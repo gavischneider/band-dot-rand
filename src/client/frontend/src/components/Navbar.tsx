@@ -15,7 +15,7 @@ export const Navbar = () => {
         <div className="my-auto pr-1">
           <button
             onClick={handleClick}
-            className="h-10 px-5 m-2 text-purple-100 transition-colors duration-150 bg-purple-800 rounded-lg focus:shadow-outline shadow-lg transition duration-400 ease-in-out hover:bg-green-500 transform hover:-translate-y-1 hover:scale-110 "
+            className="bg-gradient-to-r from-purple-400 via-purple-600 to-purple-800 hover:from-teal-400 hover:to-blue-500  h-10 px-5 m-2 transition-colors duration-120 rounded-lg focus:shadow-outline shadow-lg transition duration-400 ease-in-out transform hover:-translate-y-1 hover:scale-110"
           >
             Next!
           </button>
