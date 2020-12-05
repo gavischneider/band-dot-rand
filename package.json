@@ -7,8 +7,8 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "start": "node dist/main.js",
+    "dev": "nodemon src/main.ts",
     "build": "tsc -p .",
     "postinstall": "tsc",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix dist/client/frontend && npm run build --prefix dist/client/frontend"
