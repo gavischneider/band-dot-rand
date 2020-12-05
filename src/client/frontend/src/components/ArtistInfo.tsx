@@ -16,7 +16,7 @@ export const ArtistInfo = (props: any) => {
     anchor.setAttribute("data-size", "large");
     anchor.setAttribute(
       "data-text",
-      "I'm discovering new artists on band.rand()!"
+      `I discovered ${props.info.name} on band.rand()!`
     );
     anchor.setAttribute("data-url", "https://www.banddotrand.software");
     anchor.setAttribute("data-via", "gschnei");

@@ -2,6 +2,8 @@ const express = require("express");
 
 import { Request, Response, NextFunction } from "express";
 
+import { Artist, Album } from "../client/frontend/src/types/interfaces";
+
 const router = express.Router();
 
 const SpotifyWebApi = require("spotify-web-api-node");
@@ -37,13 +39,6 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
-
-interface Album {
-  id: string;
-  name: string;
-  release_date: number;
-  href: string;
-}
 
 // Random band route
 router.get("/", async (req: Request, res: Response) => {
@@ -81,7 +76,7 @@ router.get("/", async (req: Request, res: Response) => {
       console.log(data.body.artists.items);
 
       // Choose one of the artist results randomly
-      const randomArtist =
+      const randomArtist: Artist =
         data.body.artists.items[
           Math.floor(Math.random() * data.body.artists.items.length)
         ];
@@ -108,7 +103,7 @@ router.get("/", async (req: Request, res: Response) => {
             function (data: any) {
               //console.log("----------RELATED ARTISTS RIGHT HERE----------");
               //console.log(data.body);
-              const relatedArtists: any = data.body.artists;
+              const relatedArtists: Artist[] = data.body.artists;
 
               // Combine the random artist with its albums and related artists, then send
               let finalArtist = {
