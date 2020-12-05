@@ -12,6 +12,8 @@ const app: Application = express();
 
 const PORT: string | number = process.env.PORT || 3001;
 
+const path = require("path");
+
 const random: Router = require("./routes/random");
 
 app.use("/random", random);
@@ -21,6 +23,18 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
+
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("client/frontend/build"));
+
+  app.get("*", (req: Request, res: Response) => {
+    res.sendFile(
+      path.resolve(__dirname, "client", "frontend", "build", "index.html")
+    );
+  });
+}
 
 // Home route
 app.get("/", (req: Request, res: Response) => {

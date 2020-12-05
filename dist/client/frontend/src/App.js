@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./App.css");
 const react_1 = __importDefault(require("react"));
-const RandomSong_1 = require("./components/RandomSong");
+const RandomBand_1 = require("./components/RandomBand");
 function App() {
     return (react_1.default.createElement("div", { className: "App" },
-        react_1.default.createElement(RandomSong_1.RandomSong, null)));
+        react_1.default.createElement(RandomBand_1.RandomBand, null)));
 }
 exports.default = App;

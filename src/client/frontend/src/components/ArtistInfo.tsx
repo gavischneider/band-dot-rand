@@ -7,6 +7,7 @@ export const ArtistInfo = (props: any) => {
   //console.log(props);
 
   useEffect(() => {
+    const name: string = props.info.name;
     const anchor = document.createElement("a");
     anchor.setAttribute(
       "href",
@@ -14,10 +15,7 @@ export const ArtistInfo = (props: any) => {
     );
     anchor.setAttribute("class", "twitter-share-button");
     anchor.setAttribute("data-size", "large");
-    anchor.setAttribute(
-      "data-text",
-      `I discovered ${props.info.name} on band.rand()!`
-    );
+    anchor.setAttribute("data-text", `I discovered ${name} on band.rand()!`);
     anchor.setAttribute("data-url", "https://www.banddotrand.software");
     anchor.setAttribute("data-via", "gschnei");
     anchor.setAttribute("data-hashtags", "bandDotRand");
@@ -28,7 +26,7 @@ export const ArtistInfo = (props: any) => {
     const script = document.createElement("script");
     script.setAttribute("src", "https://platform.twitter.com/widgets.js");
     document.getElementsByClassName("twitter-embed")[0].appendChild(script);
-  }, []);
+  }, [props.info.name]);
 
   return (
     <div className="lg:flex justify-center py-12 px-12 container mx-auto rounded mt-5 mb-8 shadow-lg bg-gray-800">
