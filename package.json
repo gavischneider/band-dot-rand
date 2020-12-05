@@ -7,7 +7,7 @@
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
     "build": "tsc -p .",
-    "postinstall": "tsc && mv -i -v src/client/frontend/public dist/ && mv -i -v package.json dist/",
+    "postinstall": "tsc && mv -i -v src/client/frontend/public dist/",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix src/client/frontend && npm run build --prefix src/client/frontend"
   },
   "repository": {
