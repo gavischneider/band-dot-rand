@@ -38,6 +38,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "import/imports-first": [
+      "warn",
+      "DISABLE-absolute-first"
     ]
   },
   "browserslist": {

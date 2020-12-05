@@ -7,6 +7,8 @@ import { Footer } from "./Footer";
 import { ArtistsRelatedArtists } from "./ArtistsRelatedArtists";
 import { Artist } from "../types/interfaces";
 
+//eslint-disable import/first
+
 export const RandomBand = () => {
   const [initialState, setInitialState] = useState<Artist[]>([]);
   const PORT: string | number = process.env.PORT || 3001;

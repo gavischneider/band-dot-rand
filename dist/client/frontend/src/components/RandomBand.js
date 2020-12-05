@@ -6,6 +6,8 @@ import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { ArtistsRelatedArtists } from "./ArtistsRelatedArtists";
 
+//eslint-disable import/first
+
 var __awaiter =
   (this && this.__awaiter) ||
   function (thisArg, _arguments, P, generator) {
