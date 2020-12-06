@@ -23,4 +23,4 @@ if (process.env.NODE_ENV === "production") {
 app.get("/", (req, res) => {
     res.send("Welcome to bandDotRand! To get a random song, go to the '/random' route.");
 });
-app.listen(PORT, () => console.log("Server running on port 3001"));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

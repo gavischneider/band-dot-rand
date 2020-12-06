@@ -9,10 +9,12 @@ import { ArtistsRelatedArtists } from "./ArtistsRelatedArtists";
 //eslint-disable import/first
 export const RandomBand = () => {
     const [initialState, setInitialState] = useState([]);
-    const PORT = process.env.PORT || 3001;
-    // Backend API
-    const proxyUrl = `http://localhost:${PORT}`;
+    const PORT = 3001;
+    // Backend API | Change to localhost in dev environment
+    //const proxyUrl = `http://localhost:${PORT}`;
+    const proxyUrl = "https://band-dot-rand.herokuapp.com";
     const api = "/random";
+    console.log(`PROXY URL IS: ${proxyUrl}`);
     useEffect(() => {
         (function callAPI() {
             return __awaiter(this, void 0, void 0, function* () {
@@ -22,15 +24,15 @@ export const RandomBand = () => {
                     setInitialState([
                         Object.assign({}, response.data),
                     ]);
-                    console.log("RESPONSE.DATA");
-                    console.log(response.data);
                 })
                     .catch((error) => console.log(error));
             });
         })();
+        let twitterButton = document.getElementById("twitter-widget-0");
+        if (twitterButton) {
+            twitterButton.classList.add("mx-auto");
+        }
     }, [proxyUrl]);
-    console.log("initialState: ");
-    console.log(initialState);
     if (!initialState[0])
         return React.createElement("span", null, "loading...");
     return (React.createElement("div", { className: "bg-gray-900" },

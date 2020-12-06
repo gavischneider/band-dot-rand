@@ -50,15 +50,10 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Search artists whose name starts with the random query prefix
     spotifyApi.searchArtists(rand).then(function (data) {
         console.log("Search artists by random query", data.body);
-        console.log("// ---------- Artist data: ----------");
-        console.log(data.body.artists.items);
         // Choose one of the artist results randomly
         const randomArtist = data.body.artists.items[Math.floor(Math.random() * data.body.artists.items.length)];
-        //console.log("---------- HERE IS THE RANDOM ARTIST ----------");
-        //console.log(randomArtist);
         // Get the artists albums
         spotifyApi.getArtistAlbums(randomArtist.id).then(function (data) {
-            console.log("Artist albums", data.body);
             let albums = data.body.items;
             // Sort the albums by date
             albums.sort(function compare(albumA, albumB) {
@@ -69,14 +64,10 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             albums.reverse();
             // Get artists related to an artist
             spotifyApi.getArtistRelatedArtists(randomArtist.id).then(function (data) {
-                //console.log("----------RELATED ARTISTS RIGHT HERE----------");
-                //console.log(data.body);
                 const relatedArtists = data.body.artists;
                 // Combine the random artist with its albums and related artists, then send
                 let finalArtist = Object.assign(Object.assign({}, randomArtist), { albums,
                     relatedArtists });
-                //console.log("---------- HERE IS THE *FINAL* ARTIST ----------");
-                //console.log(finalArtist);
                 res.send(finalArtist);
             }, function (err) {
                 console.log(err);

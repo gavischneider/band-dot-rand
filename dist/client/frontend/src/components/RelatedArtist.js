@@ -1,7 +1,5 @@
 import React from "react";
 export const RelatedArtist = (props) => {
-    console.log("------RELATED ARTISTS PROPS------");
-    console.log(props);
     return (React.createElement("div", { className: "max-w-xs rounded shadow-lg p-4 transform transition duration-300 hover:scale-110 mb-4 mt-4 bg-gray-800" },
         React.createElement("div", { className: "" },
             React.createElement("div", { className: "" },

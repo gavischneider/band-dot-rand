@@ -46,7 +46,7 @@ export const ArtistInfo = (props: any) => {
               rel="noreferrer"
             >
               <img
-                className="w-40 shadow-lg transform transition duration-300 hover:scale-110 mb-6 mx-auto md:text-left"
+                className="w-40 shadow-lg transform transition duration-300 hover:scale-110 mb-6 mx-auto lg:mx-0 lg:text-left"
                 alt="spotify button"
                 src={imagePath}
               />
