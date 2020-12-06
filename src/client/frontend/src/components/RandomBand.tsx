@@ -11,10 +11,11 @@ import { Artist } from "../types/interfaces";
 
 export const RandomBand = () => {
   const [initialState, setInitialState] = useState<Artist[]>([]);
-  const PORT: string | number = process.env.PORT || 3001;
+  const PORT: number = 3001;
 
-  // Backend API | Change to localhost with port 3001 in dev environment
-  const proxyUrl = "https://band-dot-rand.herokuapp.com";
+  // Backend API | Change to localhost in dev environment
+  const proxyUrl = `http://localhost:${PORT}`;
+  //const proxyUrl = "https://band-dot-rand.herokuapp.com";
   const api = "/random";
 
   console.log(`PROXY URL IS: ${proxyUrl}`);
@@ -34,6 +35,11 @@ export const RandomBand = () => {
         })
         .catch((error) => console.log(error));
     })();
+
+    let twitterButton = document.getElementById("twitter-widget-0");
+    if (twitterButton) {
+      twitterButton.classList.add("mx-auto");
+    }
   }, [proxyUrl]);
 
   console.log("initialState: ");
