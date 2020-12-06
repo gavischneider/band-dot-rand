@@ -13,7 +13,7 @@ export const RandomBand = () => {
   const [initialState, setInitialState] = useState<Artist[]>([]);
   const PORT: string | number = process.env.PORT || 3001;
 
-  // Backend API
+  // Backend API | Change to localhost with port 3001 in dev environment
   const proxyUrl = "https://band-dot-rand.herokuapp.com";
   const api = "/random";
 

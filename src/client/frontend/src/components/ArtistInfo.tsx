@@ -16,7 +16,7 @@ export const ArtistInfo = (props: any) => {
     anchor.setAttribute("class", "twitter-share-button");
     anchor.setAttribute("data-size", "large");
     anchor.setAttribute("data-text", `I discovered ${name} on band.rand()!`);
-    anchor.setAttribute("data-url", "https://www.banddotrand.software");
+    anchor.setAttribute("data-url", "https://band-dot-rand.herokuapp.com/");
     anchor.setAttribute("data-via", "gschnei");
     anchor.setAttribute("data-hashtags", "bandDotRand");
     anchor.setAttribute("data-lang", "en");
