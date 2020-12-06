@@ -6,6 +6,6 @@ bandDotRand is a random artist generator. You can discover (or rediscover) a new
 
 bandDotRand gets all its music data from the Spotify API.
 
-bandDotRand was built with TypeScript React, TailwindCSS, Node.js & Express.
+bandDotRand was built with TypeScript, React, TailwindCSS, Node.js & Express.
 
 Check out bandDotRand [here](https://band-dot-rand.herokuapp.com/).
