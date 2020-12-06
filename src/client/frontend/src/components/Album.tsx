@@ -2,7 +2,16 @@ import React from "react";
 
 export const Album = (props: any) => {
   return (
-    <div className="max-w-xs rounded shadow-lg transform transition duration-300 hover:scale-110 bg-gray-800 mx-auto">
+    <div
+      className="rounded shadow-lg transform transition duration-300 hover:scale-110 bg-gray-800 mx-auto"
+      id="albumCard"
+    >
+      <style>
+        {`
+        #albumCard {
+          max-width: 18rem
+        }`}
+      </style>
       <div className="object-none object-fill">
         <a
           href={props.album.external_urls.spotify}
