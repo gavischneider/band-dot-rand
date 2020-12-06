@@ -72,22 +72,15 @@ router.get("/", async (req: Request, res: Response) => {
     function (data: any) {
       console.log("Search artists by random query", data.body);
 
-      console.log("// ---------- Artist data: ----------");
-      console.log(data.body.artists.items);
-
       // Choose one of the artist results randomly
       const randomArtist: Artist =
         data.body.artists.items[
           Math.floor(Math.random() * data.body.artists.items.length)
         ];
 
-      //console.log("---------- HERE IS THE RANDOM ARTIST ----------");
-      //console.log(randomArtist);
-
       // Get the artists albums
       spotifyApi.getArtistAlbums(randomArtist.id).then(
         function (data: any) {
-          console.log("Artist albums", data.body);
           let albums: Album[] = data.body.items;
 
           // Sort the albums by date
@@ -101,8 +94,6 @@ router.get("/", async (req: Request, res: Response) => {
           // Get artists related to an artist
           spotifyApi.getArtistRelatedArtists(randomArtist.id).then(
             function (data: any) {
-              //console.log("----------RELATED ARTISTS RIGHT HERE----------");
-              //console.log(data.body);
               const relatedArtists: Artist[] = data.body.artists;
 
               // Combine the random artist with its albums and related artists, then send
@@ -111,8 +102,6 @@ router.get("/", async (req: Request, res: Response) => {
                 albums,
                 relatedArtists,
               };
-              //console.log("---------- HERE IS THE *FINAL* ARTIST ----------");
-              //console.log(finalArtist);
               res.send(finalArtist);
             },
             function (err: Error) {

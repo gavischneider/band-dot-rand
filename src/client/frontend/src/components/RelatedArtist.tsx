@@ -1,8 +1,6 @@
 import React from "react";
 
 export const RelatedArtist = (props: any) => {
-  console.log("------RELATED ARTISTS PROPS------");
-  console.log(props);
   return (
     <div className="max-w-xs rounded shadow-lg p-4 transform transition duration-300 hover:scale-110 mb-4 mt-4 bg-gray-800">
       <div className="">

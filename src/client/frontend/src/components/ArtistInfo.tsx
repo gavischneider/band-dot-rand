@@ -3,9 +3,6 @@ import { ArtistPhoto } from "./ArtistPhoto";
 import imagePath from "../assets/spotifybutton.png";
 
 export const ArtistInfo = (props: any) => {
-  //console.log("PROPS");
-  //console.log(props);
-
   useEffect(() => {
     const name: string = props.info.name;
     const anchor = document.createElement("a");

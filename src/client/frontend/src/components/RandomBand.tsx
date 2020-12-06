@@ -14,8 +14,8 @@ export const RandomBand = () => {
   const PORT: number = 3001;
 
   // Backend API | Change to localhost in dev environment
-  const proxyUrl = `http://localhost:${PORT}`;
-  //const proxyUrl = "https://band-dot-rand.herokuapp.com";
+  //const proxyUrl = `http://localhost:${PORT}`;
+  const proxyUrl = "https://band-dot-rand.herokuapp.com";
   const api = "/random";
 
   console.log(`PROXY URL IS: ${proxyUrl}`);
@@ -30,8 +30,6 @@ export const RandomBand = () => {
               ...response.data,
             },
           ]);
-          console.log("RESPONSE.DATA");
-          console.log(response.data);
         })
         .catch((error) => console.log(error));
     })();
@@ -41,9 +39,6 @@ export const RandomBand = () => {
       twitterButton.classList.add("mx-auto");
     }
   }, [proxyUrl]);
-
-  console.log("initialState: ");
-  console.log(initialState);
 
   if (!initialState[0]) return <span>loading...</span>;
 

@@ -4,8 +4,6 @@ import Carousel from "react-elastic-carousel";
 import { Artist } from "../types/interfaces";
 
 export const ArtistsRelatedArtists = (props: any) => {
-  console.log("ARTISTS RELATED ARTISTS PROPS");
-  console.log(props);
   const relatedArtists: Artist[] = props.relatedArtists;
 
   const breakpoints = [

@@ -3,8 +3,6 @@ import { Album } from "./Album";
 import { Album as AlbumT } from "../types/interfaces";
 
 export const ArtistsAlbums = (props: any) => {
-  console.log("PROPS");
-  console.log(props);
   const albums: AlbumT[] = props.albums;
   return (
     <div className="container mx-auto">
